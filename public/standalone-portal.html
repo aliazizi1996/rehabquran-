@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مقرأة رحاب القرآن الإلكترونية - بوابة الطالب والحلقات القرآنية</title>
+  
+  <!-- Favicon & Brand Icons -->
+  <link rel="icon" type="image/png" href="/brand/official-logo-small.png">
+  <link rel="apple-touch-icon" href="/brand/official-logo-small.png">
+
+  <!-- Google Fonts: Amiri (Headings & Quran) & Noto Kufi Arabic (Body & Data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              emerald: '#046A38',
+              'emerald-dark': '#024223',
+              'emerald-light': '#0a8f4e',
+              gold: '#C5A059',
+              'gold-light': '#DFBE7C',
+              'gold-dark': '#A07E39',
+              ivory: '#F9F6F0',
+              'ivory-card': '#FFFFFF',
+              slate: '#2C3531',
+              'slate-light': '#475569'
+            }
+          },
+          fontFamily: {
+            quran: ['Amiri', 'serif'],
+            serif: ['Amiri', 'serif'],
+            sans: ['"Noto Kufi Arabic"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Kufi Arabic', sans-serif;
+      background-color: #F9F6F0;
+      color: #2C3531;
+    }
+    .font-quran {
+      font-family: 'Amiri', serif;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1ECE1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C5A059;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #046A38;
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #C5A059 0%, #DFBE7C 50%, #A07E39 100%);
+    }
+    .emerald-gradient {
+      background: linear-gradient(135deg, #046A38 0%, #03522b 50%, #024223 100%);
+    }
+    .quran-border {
+      border-image: linear-gradient(to bottom, #C5A059, #046A38) 1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#C5A059] selection:text-white">
+
+  <!-- ======================================================== -->
+  <!-- 1. الشريط العلوي (Top Navbar)                            -->
+  <!-- ======================================================== -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-brand-gold/30 shadow-xs transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- الشعار واسم المقرأة الرسمي 2026 -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
+          <div class="relative w-12 h-12 rounded-xl bg-brand-emerald/10 border border-brand-gold/40 flex items-center justify-center p-1 overflow-hidden shadow-xs">
+            <img src="/brand/official-logo-small.png" alt="شعار مقرأة رحاب القرآن" class="w-full h-full object-contain" onerror="this.src='/brand/official-logo.png'; this.onerror=null;">
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl font-bold font-serif text-brand-emerald tracking-wide">مقرأة رحاب القرآن</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-gold/15 text-brand-gold-dark border border-brand-gold/30">الإلكترونية</span>
+            </div>
+            <p class="text-xs text-slate-500 font-sans">بإشراف فضيلة الشيخ د. علي عزيزي • السند المتصل</p>
+          </div>
+        </div>
+
+        <!-- روابط التنقل السريع بين التبويبات -->
+        <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+          <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-brand-emerald bg-brand-emerald/10 border border-brand-emerald/20">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>لوحة الطالب</span>
+          </button>
+          <button onclick="switchTab('halqat')" id="nav-btn-halqat" class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-brand-emerald hover:bg-brand-emerald/5">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>الحلقات المباشرة</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          </button>
+          <button onclick="switchTab('recitation-room')" id="nav-btn-recitation-room" class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-brand-emerald hover:bg-brand-emerald/5">
+            <i data-lucide="mic" class="w-4 h-4"></i>
+            <span>غرفة التسميع</span>
+          </button>
+          <button onclick="switchTab('sanad')" id="nav-btn-sanad" class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-brand-emerald hover:bg-brand-emerald/5">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>الإجازات والسند</span>
+          </button>
+          <button onclick="switchTab('curriculum')" id="nav-btn-curriculum" class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-brand-emerald hover:bg-brand-emerald/5">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>منهج التجويد</span>
+          </button>
+        </nav>
+
+        <!-- الإشعارات وملف الطالب -->
+        <div class="flex items-center gap-3">
+          
+          <!-- زر جرس الإشعارات -->
+          <div class="relative">
+            <button onclick="toggleNotifications()" class="relative p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors focus:outline-hidden">
+              <i data-lucide="bell" class="w-5 h-5"></i>
+              <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-brand-gold rounded-full ring-2 ring-white"></span>
+            </button>
+
+            <!-- نافذة الإشعارات المنسدلة -->
+            <div id="notifications-menu" class="hidden absolute left-0 mt-3 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-brand-gold/30 p-4 z-50 transition-all">
+              <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+                <h4 class="font-bold text-brand-emerald text-sm flex items-center gap-2">
+                  <i data-lucide="bell-ring" class="w-4 h-4 text-brand-gold"></i>
+                  إشعارات وتنبيهات المقرأة
+                </h4>
+                <span class="text-[11px] bg-brand-emerald/10 text-brand-emerald font-semibold px-2 py-0.5 rounded-full">3 جديدة</span>
+              </div>
+              <div class="divide-y divide-stone-100 text-xs mt-2 max-h-72 overflow-y-auto">
+                <div class="py-2.5 hover:bg-stone-50 px-2 rounded-lg transition-colors cursor-pointer" onclick="switchTab('recitation-room')">
+                  <p class="font-bold text-slate-800">حلقة الفجر المباشرة بدأت الآن</p>
+                  <p class="text-slate-500 mt-0.5">الشيخ عبد الرحمن السقاف بانتظارك في غرفة التسميع 1.</p>
+                  <span class="text-[10px] text-brand-gold mt-1 block">منذ 5 دقائق</span>
+                </div>
+                <div class="py-2.5 hover:bg-stone-50 px-2 rounded-lg transition-colors">
+                  <p class="font-bold text-slate-800">تم اعتماد تقييم سورة النبأ</p>
+                  <p class="text-slate-500 mt-0.5">درجة الإتقان: 98% مع توصية بإتقان ترقيق الراءات.</p>
+                  <span class="text-[10px] text-slate-400 mt-1 block">أمس، 8:30 م</span>
+                </div>
+                <div class="py-2.5 hover:bg-stone-50 px-2 rounded-lg transition-colors">
+                  <p class="font-bold text-slate-800">وسام جديد: فارس التجويد الذهبي</p>
+                  <p class="text-slate-500 mt-0.5">مبارك! حصلت على وسام إتقان أحكام النون الساكنة.</p>
+                  <span class="text-[10px] text-slate-400 mt-1 block">منذ يومين</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- شريحة ملف الطالب المختصرة -->
+          <div class="flex items-center gap-2.5 bg-brand-ivory p-1.5 pr-3 rounded-xl border border-brand-gold/30">
+            <div class="hidden sm:block text-right">
+              <span class="text-xs font-bold text-slate-800 block leading-tight">أحمد بن خالد اليمني</span>
+              <span class="text-[10px] text-brand-gold-dark font-medium flex items-center justify-end gap-1">
+                <span>فارس المقرأة ⭐</span>
+              </span>
+            </div>
+            <div class="w-9 h-9 rounded-lg bg-brand-emerald text-white flex items-center justify-center font-bold font-serif text-sm shadow-xs">
+              أ
+            </div>
+          </div>
+
+          <!-- زر القائمة للهواتف -->
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg bg-stone-100 text-slate-700">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- قائمة الهواتف المحمولة المنسدلة -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-brand-gold/20 bg-white px-4 pt-3 pb-5 space-y-2">
+      <button onclick="switchTab('dashboard')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold text-brand-emerald bg-brand-emerald/10">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>لوحة الطالب والإحصائيات</span>
+      </button>
+      <button onclick="switchTab('halqat')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-stone-50">
+        <i data-lucide="users" class="w-4 h-4"></i>
+        <span>الحلقات وجلسات التسميع المباشرة</span>
+      </button>
+      <button onclick="switchTab('recitation-room')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-stone-50">
+        <i data-lucide="mic" class="w-4 h-4"></i>
+        <span>غرفة التسميع وتصحيح التلاوة</span>
+      </button>
+      <button onclick="switchTab('sanad')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-stone-50">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>الإجازات والقراءات العشر والسند</span>
+      </button>
+      <button onclick="switchTab('curriculum')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-stone-50">
+        <i data-lucide="book-open" class="w-4 h-4"></i>
+        <span>منهج التجويد النظري والعملي</span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ======================================================== -->
+  <!-- 2. محتوى التطبيق الرئيسي (Tabs Container)                  -->
+  <!-- ======================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ======================================================== -->
+    <!-- تبويب 1: لوحة إحصائيات الطالب (Dashboard Tab)            -->
+    <!-- ======================================================== -->
+    <section id="tab-dashboard" class="tab-content space-y-6">
+      
+      <!-- ترويسة ترحيبية فاخرة -->
+      <div class="relative overflow-hidden rounded-3xl emerald-gradient text-white p-6 sm:p-8 shadow-lg border border-brand-gold/40">
+        <div class="absolute -left-10 -bottom-10 opacity-10 pointer-events-none">
+          <i data-lucide="book-open-check" class="w-72 h-72 text-brand-gold"></i>
+        </div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs border border-white/20 text-xs font-semibold text-brand-gold-light">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>مرحباً بك مجدداً في رحاب القرآن</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-bold font-serif text-white tracking-wide">
+              حياك الله، الطالب أحمد بن خالد
+            </h1>
+            <p class="text-emerald-100 text-xs sm:text-sm max-w-xl leading-relaxed">
+              «خيركم من تعلم القرآن وعلمه». واصل مسيرة الحفظ المتقن بإشراف شيخك المعتمد بالسند المتصل إلى رسول الله ﷺ.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="switchTab('recitation-room')" class="px-5 py-3 rounded-xl gold-gradient text-brand-slate font-bold text-sm shadow-md hover:brightness-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+              <i data-lucide="mic" class="w-4 h-4"></i>
+              <span>دخول جلسة التسميع الآن</span>
+            </button>
+            <button onclick="switchTab('halqat')" class="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 backdrop-blur-xs transition-all flex items-center gap-2 cursor-pointer">
+              <i data-lucide="calendar" class="w-4 h-4"></i>
+              <span>جدول الحلقات</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- شبكة بطاقات الإحصائيات الأربع -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        
+        <!-- بطاقة 1: الورد اليومي -->
+        <div class="bg-white rounded-2xl p-5 border border-brand-gold/25 shadow-xs hover:border-brand-emerald transition-all group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">الورد اليومي المقرر</span>
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-brand-emerald flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i data-lucide="book-marked" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-bold font-serif text-brand-emerald">سورة الكهف</div>
+            <p class="text-xs text-slate-500 mt-1">الآيات: (1 - 25) • مراجعة وتثبيت</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+            <span class="text-emerald-600 font-semibold flex items-center gap-1">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+              <span>أُنجز 70% اليوم</span>
+            </span>
+            <span class="text-slate-400">باقي 10 آيات</span>
+          </div>
+        </div>
+
+        <!-- بطاقة 2: نسبة إنجاز الحفظ -->
+        <div class="bg-white rounded-2xl p-5 border border-brand-gold/25 shadow-xs hover:border-brand-emerald transition-all group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">نسبة إنجاز الحفظ العام</span>
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-brand-gold-dark flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i data-lucide="pie-chart" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <div class="text-2xl font-bold font-serif text-brand-gold-dark">68.5%</div>
+            <span class="text-xs text-slate-500">(20.5 جزءاً متقناً)</span>
+          </div>
+          <!-- شريط التقدم -->
+          <div class="w-full bg-stone-100 h-2 rounded-full mt-3 overflow-hidden">
+            <div class="bg-brand-gold h-full rounded-full transition-all duration-1000" style="width: 68.5%"></div>
+          </div>
+          <div class="mt-3 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>الهدف: ختمة كاملة</span>
+            <span>باقي 9.5 أجزاء</span>
+          </div>
+        </div>
+
+        <!-- بطاقة 3: الحزب والجزء الحالي -->
+        <div class="bg-white rounded-2xl p-5 border border-brand-gold/25 shadow-xs hover:border-brand-emerald transition-all group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">الموقع الحالي في المصحف</span>
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-bold font-serif text-slate-800">الجزء الحادي والعشرون</div>
+            <p class="text-xs text-slate-500 mt-1">الحزب 41 • الربع الثالث • سورة العنكبوت</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+            <span class="text-blue-600 font-semibold">رواية حفص عن عاصم</span>
+            <span class="text-slate-400">طريق الشاطبية</span>
+          </div>
+        </div>
+
+        <!-- بطاقة 4: موعد الجلسة القادمة -->
+        <div class="bg-white rounded-2xl p-5 border border-brand-gold/25 shadow-xs hover:border-brand-emerald transition-all group">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">موعد الجلسة القادمة</span>
+            <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-2xl font-bold font-serif text-purple-900">5:00 ص فجراً</div>
+            <p class="text-xs text-slate-500 mt-1">مع الشيخ: د. علي عزيزي</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+            <span class="text-purple-600 font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              <span>تبدأ بعد: 03:15:20</span>
+            </span>
+            <button onclick="switchTab('recitation-room')" class="text-brand-emerald font-bold hover:underline">انضم</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- قسم ثنائي: نشاط الحفظ الأخير + مسار الرتب القرآنية -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- نشاط الحفظ الأخير وجدول الأسبوع -->
+        <div class="lg:col-span-2 bg-white rounded-2xl p-6 border border-brand-gold/25 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-stone-100 pb-4">
+            <div>
+              <h3 class="font-bold text-base text-brand-emerald font-serif">سجل التسميع والمراجعة الأسبوعي</h3>
+              <p class="text-xs text-slate-500">تفاصيل الآيات التي تم تسميعها مع درجات الشيخ والملاحظات</p>
+            </div>
+            <button onclick="switchTab('recitation-room')" class="text-xs font-bold text-brand-gold-dark hover:underline flex items-center gap-1">
+              <span>تسميع مقطع جديد</span>
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-stone-50 text-slate-600 font-semibold border-b border-stone-200">
+                <tr>
+                  <th class="py-3 px-3">التاريخ</th>
+                  <th class="py-3 px-3">السورة والآيات</th>
+                  <th class="py-3 px-3">النوع</th>
+                  <th class="py-3 px-3">المعلم المشرف</th>
+                  <th class="py-3 px-3">الدرجة</th>
+                  <th class="py-3 px-3">الحالة</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-100">
+                <tr class="hover:bg-brand-ivory/50 transition-colors">
+                  <td class="py-3.5 px-3 font-medium text-slate-800">اليوم، 05:45 ص</td>
+                  <td class="py-3.5 px-3 font-bold text-brand-emerald font-serif text-sm">سورة الكهف (1 - 25)</td>
+                  <td class="py-3.5 px-3"><span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[11px] font-semibold">حفظ جديد</span></td>
+                  <td class="py-3.5 px-3 text-slate-600">الشيخ عبد الرحمن</td>
+                  <td class="py-3.5 px-3 font-bold text-emerald-600">98%</td>
+                  <td class="py-3.5 px-3"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">متقن ومجاز</span></td>
+                </tr>
+                <tr class="hover:bg-brand-ivory/50 transition-colors">
+                  <td class="py-3.5 px-3 font-medium text-slate-800">أمس، 05:30 ص</td>
+                  <td class="py-3.5 px-3 font-bold text-brand-emerald font-serif text-sm">سورة الإسراء (80 - 111)</td>
+                  <td class="py-3.5 px-3"><span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[11px] font-semibold">مراجعة قريبة</span></td>
+                  <td class="py-3.5 px-3 text-slate-600">د. علي عزيزي</td>
+                  <td class="py-3.5 px-3 font-bold text-emerald-600">95%</td>
+                  <td class="py-3.5 px-3"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">متقن</span></td>
+                </tr>
+                <tr class="hover:bg-brand-ivory/50 transition-colors">
+                  <td class="py-3.5 px-3 font-medium text-slate-800">السبت، 06:00 ص</td>
+                  <td class="py-3.5 px-3 font-bold text-brand-emerald font-serif text-sm">سورة مريم (كاملة)</td>
+                  <td class="py-3.5 px-3"><span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[11px] font-semibold">تثبيت بالسند</span></td>
+                  <td class="py-3.5 px-3 text-slate-600">د. علي عزيزي</td>
+                  <td class="py-3.5 px-3 font-bold text-emerald-600">100%</td>
+                  <td class="py-3.5 px-3"><span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">امتياز مع مرتبة الشرف</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- بطاقة وسام الرتبة القرآنية ومستوى التميز -->
+        <div class="bg-white rounded-2xl p-6 border border-brand-gold/30 shadow-xs space-y-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+              <h3 class="font-bold text-base text-brand-emerald font-serif">الرتبة القرآنية للطالب</h3>
+              <span class="text-xs bg-brand-gold/15 text-brand-gold-dark font-bold px-2.5 py-1 rounded-full border border-brand-gold/30">المستوى الرابع</span>
+            </div>
+            
+            <div class="text-center py-4">
+              <div class="w-20 h-20 mx-auto rounded-full gold-gradient p-1 flex items-center justify-center shadow-md">
+                <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-brand-gold">
+                  <i data-lucide="crown" class="w-10 h-10"></i>
+                </div>
+              </div>
+              <h4 class="font-serif font-bold text-xl text-slate-800 mt-3">فارس المقرأة المتميز</h4>
+              <p class="text-xs text-slate-500 mt-1">2,450 نقطة تميز تجويدي</p>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between text-slate-600">
+                <span>التقدم نحو رتبة: قارئ مسند</span>
+                <span class="font-bold text-brand-emerald">2,450 / 3,000</span>
+              </div>
+              <div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                <div class="bg-brand-emerald h-full rounded-full" style="width: 81.6%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 text-center">باقي 550 نقطة للحصول على إجازة بالسند المتصل</p>
+            </div>
+          </div>
+
+          <div class="bg-brand-ivory p-3.5 rounded-xl border border-brand-gold/20 flex items-center gap-3">
+            <i data-lucide="shield-check" class="w-6 h-6 text-brand-emerald shrink-0"></i>
+            <div class="text-xs">
+              <span class="font-bold text-slate-800 block">شهادة التجويد السابقة معتمدة</span>
+              <span class="text-slate-500">رقم السجل: RQ-2026-CERT-0192</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================== -->
+    <!-- تبويب 2: الحلقات وجلسات التسميع المباشرة (Halqat Tab)     -->
+    <!-- ======================================================== -->
+    <section id="tab-halqat" class="tab-content hidden space-y-6">
+      
+      <!-- ترويسة الحلقات -->
+      <div class="bg-white rounded-2xl p-6 border border-brand-gold/25 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-bold font-serif text-brand-emerald">حلقات المقرأة وجلسات التسميع المباشرة</h2>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+              <span class="w-2 h-2 rounded-full bg-rose-600 animate-pulse"></span>
+              <span>مباشر الآن</span>
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">اختر الشيخ المتاح للدخول الفوري في غرفة التسميع وتصحيح التلاوة بالسند</p>
+        </div>
+
+        <!-- تصفية القسم -->
+        <div class="flex items-center gap-2">
+          <button class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-brand-emerald text-white shadow-xs">جميع الحلقات</button>
+          <button class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-slate-600 hover:bg-stone-200">قسم البنين</button>
+          <button class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-slate-600 hover:bg-stone-200">قسم الأخوات</button>
+        </div>
+      </div>
+
+      <!-- شبكة بطاقات الشيوخ والحلقات المتاحة -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        
+        <!-- حلقة 1: د. علي عزيزي -->
+        <div class="bg-white rounded-2xl border-2 border-brand-gold/40 hover:border-brand-emerald transition-all shadow-xs p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-brand-emerald/10 border border-brand-gold/40 flex items-center justify-center text-brand-emerald font-serif font-bold text-lg">
+                  د.ع
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-900 font-serif text-base">فضيلة الشيخ د. علي عزيزي</h3>
+                  <p class="text-xs text-brand-gold-dark font-medium">المشرف العام • مجاز بالقراءات العشر</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping"></span>
+                <span>متاح الآن</span>
+              </span>
+            </div>
+
+            <div class="mt-4 p-3 bg-brand-ivory rounded-xl border border-stone-200/60 space-y-1.5 text-xs text-slate-600">
+              <div class="flex justify-between">
+                <span>اسم الحلقة:</span>
+                <span class="font-bold text-slate-800">حلقة الإتقان والروايات بالسند</span>
+              </div>
+              <div class="flex justify-between">
+                <span>الموعد اليومي:</span>
+                <span class="font-medium text-slate-800">5:00 ص - 7:00 ص بتوقيت مكة</span>
+              </div>
+              <div class="flex justify-between">
+                <span>سعة الحلقة الحالية:</span>
+                <span class="font-semibold text-emerald-700">14 / 20 طالباً</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-stone-100 flex items-center gap-2">
+            <button onclick="enterRecitationRoom('د. علي عزيزي', 'حلقة الإتقان والروايات بالسند')" class="flex-1 py-2.5 rounded-xl bg-brand-emerald hover:bg-brand-emerald-dark text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <i data-lucide="video" class="w-4 h-4"></i>
+              <span>دخول المقرأة المباشرة</span>
+            </button>
+            <button onclick="showSheikBio('د. علي عزيزي')" class="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors" title="السيرة الذاتية والسند">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- حلقة 2: الشيخ عبد الرحمن السقاف -->
+        <div class="bg-white rounded-2xl border border-stone-200 hover:border-brand-emerald transition-all shadow-xs p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center text-slate-700 font-serif font-bold text-lg">
+                  ش.ع
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-900 font-serif text-base">الشيخ عبد الرحمن السقاف</h3>
+                  <p class="text-xs text-slate-500 font-medium">أستاذ القراءات • ماجستير علوم القرآن</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                <span>متاح</span>
+              </span>
+            </div>
+
+            <div class="mt-4 p-3 bg-brand-ivory rounded-xl border border-stone-200/60 space-y-1.5 text-xs text-slate-600">
+              <div class="flex justify-between">
+                <span>اسم الحلقة:</span>
+                <span class="font-bold text-slate-800">حلقة الفجر لتصحيح التلاوة</span>
+              </div>
+              <div class="flex justify-between">
+                <span>الموعد اليومي:</span>
+                <span class="font-medium text-slate-800">5:00 ص - 6:30 ص</span>
+              </div>
+              <div class="flex justify-between">
+                <span>سعة الحلقة الحالية:</span>
+                <span class="font-semibold text-emerald-700">18 / 20 طالباً</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-stone-100 flex items-center gap-2">
+            <button onclick="enterRecitationRoom('الشيخ عبد الرحمن السقاف', 'حلقة الفجر لتصحيح التلاوة')" class="flex-1 py-2.5 rounded-xl bg-brand-emerald hover:bg-brand-emerald-dark text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <i data-lucide="video" class="w-4 h-4"></i>
+              <span>دخول المقرأة المباشرة</span>
+            </button>
+            <button onclick="showSheikBio('الشيخ عبد الرحمن السقاف')" class="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors" title="السيرة الذاتية والسند">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- حلقة 3: الشيخة أم معاذ القرشية (قسم الأخوات) -->
+        <div class="bg-white rounded-2xl border border-stone-200 hover:border-brand-gold transition-all shadow-xs p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 font-serif font-bold text-lg">
+                  أم.م
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-900 font-serif text-base">الشيخة أم معاذ القرشية</h3>
+                  <p class="text-xs text-purple-600 font-medium">مجازة بالقراءات السبع • مسندة</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold">
+                قسم الأخوات
+              </span>
+            </div>
+
+            <div class="mt-4 p-3 bg-brand-ivory rounded-xl border border-stone-200/60 space-y-1.5 text-xs text-slate-600">
+              <div class="flex justify-between">
+                <span>اسم الحلقة:</span>
+                <span class="font-bold text-slate-800">حلقة ترتيل الخاتمات بالسند</span>
+              </div>
+              <div class="flex justify-between">
+                <span>الموعد اليومي:</span>
+                <span class="font-medium text-slate-800">4:30 م - 6:30 م عصراً</span>
+              </div>
+              <div class="flex justify-between">
+                <span>سعة الحلقة الحالية:</span>
+                <span class="font-semibold text-purple-700">16 / 20 طالبة</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-stone-100 flex items-center gap-2">
+            <button onclick="enterRecitationRoom('الشيخة أم معاذ القرشية', 'حلقة ترتيل الخاتمات بالسند')" class="flex-1 py-2.5 rounded-xl bg-purple-800 hover:bg-purple-900 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <i data-lucide="video" class="w-4 h-4"></i>
+              <span>دخول حلقة الأخوات</span>
+            </button>
+            <button onclick="showSheikBio('الشيخة أم معاذ القرشية')" class="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors" title="السيرة الذاتية والسند">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================== -->
+    <!-- تبويب 3: نموذج محاكاة "غرفة التسميع" (Recitation Room)    -->
+    <!-- ======================================================== -->
+    <section id="tab-recitation-room" class="tab-content hidden space-y-6">
+      
+      <!-- ترويسة غرفة التسميع المباشرة -->
+      <div class="bg-white rounded-2xl p-5 border border-brand-gold/30 shadow-xs flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-3.5 h-3.5 rounded-full bg-rose-600 animate-ping"></div>
+          <div>
+            <h2 class="text-lg font-bold font-serif text-brand-emerald flex items-center gap-2">
+              <span>غرفة التسميع وتصحيح التلاوة المباشرة</span>
+              <span id="current-room-badge" class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-sans font-semibold">حلقة الفجر المباشرة</span>
+            </h2>
+            <p class="text-xs text-slate-500">الشيخ المقرئ المعتمد: <span id="current-sheikh-name" class="font-bold text-slate-800">فضيلة الشيخ د. علي عزيزي</span></p>
+          </div>
+        </div>
+
+        <!-- أزرار التحكم بالصوت والميكروفون والأدوات -->
+        <div class="flex items-center gap-2">
+          <!-- زر تشغيل/إيقاف التسجيل التفاعلي -->
+          <button id="btn-toggle-record" onclick="toggleRecording()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-all cursor-pointer">
+            <i data-lucide="mic" id="record-icon" class="w-4 h-4"></i>
+            <span id="record-text">بدء التسميع الحي</span>
+            <span id="record-timer" class="hidden font-mono bg-black/20 px-1.5 py-0.5 rounded text-[10px]">00:00</span>
+          </button>
+
+          <!-- زر كتم الصوت -->
+          <button onclick="toggleAudioMute()" id="btn-mute-audio" class="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors" title="كتم/تشغيل الصوت">
+            <i data-lucide="volume-2" id="mute-icon" class="w-4 h-4"></i>
+          </button>
+
+          <!-- زر فتح الكاميرا -->
+          <button onclick="toggleCamera()" id="btn-camera" class="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors" title="كاميرا الشيخ">
+            <i data-lucide="video" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- واجهة المصحف الشريف وأدوات التقييم -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- مصحف التسميع التفاعلي (عرض الآيات القرآنية) -->
+        <div class="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-8 border-2 border-brand-gold/30 shadow-md space-y-6">
+          
+          <div class="flex items-center justify-between border-b border-brand-gold/20 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-brand-emerald text-white">سورة الملك</span>
+              <span class="text-xs text-slate-500">مكية • الآيات: 1 - 5 • صفحة 562</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <button onclick="changeAyah(-1)" class="p-1.5 rounded-md hover:bg-stone-100 text-slate-600"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+              <span class="font-bold text-slate-700">مقطع 1 من 6</span>
+              <button onclick="changeAyah(1)" class="p-1.5 rounded-md hover:bg-stone-100 text-slate-600"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+
+          <!-- إطار المصحف النبوي الشريف -->
+          <div class="bg-[#FCFAF6] rounded-2xl p-6 sm:p-10 border border-brand-gold/40 text-center shadow-inner relative">
+            
+            <div class="text-brand-emerald font-serif text-lg font-bold mb-4">
+              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+            </div>
+
+            <!-- نص الآيات بخط أميري واضح مع تلوين أحكام التجويد التفاعلي -->
+            <div id="quran-text-container" class="font-quran text-2xl sm:text-3xl leading-[2.6] text-slate-900 tracking-wide select-none">
+              تَبَٰرَكَ ٱلَّذِي بِيَدِهِ ٱلۡمُلۡكُ وَهُوَ عَلَىٰ كُلِّ شَيۡءٖ قَدِيرٌ <span class="text-brand-gold font-sans text-sm inline-block mx-1">﴿١﴾</span>
+              ٱلَّذِي خَلَقَ ٱلۡمَوۡتَ وَٱلۡحَيَوٰةَ لِيَبۡلُوَكُمۡ أَيُّكُمۡ أَحۡسَنُ عَمَلٗاۚ وَهُوَ ٱلۡعَزِيزُ ٱلۡغَفُورُ <span class="text-brand-gold font-sans text-sm inline-block mx-1">﴿٢﴾</span>
+              ٱلَّذِي خَلَقَ سَبۡعَ سَمَٰوَٰتٖ طِبَاقٗاۖ مَّا تَرَىٰ فِي خَلۡقِ ٱلرَّحۡمَٰنِ مِن تَفَٰوُتٖۖ فَٱرۡجِعِ ٱلۡبَصَرَ هَلۡ تَرَىٰ مِن فُطُورٖ <span class="text-brand-gold font-sans text-sm inline-block mx-1">﴿٣﴾</span>
+              ثُمَّ ٱرۡجِعِ ٱلۡبَصَرَ كَرَّتَيۡنِ يَنقَلِبۡ إِلَيۡكَ ٱلۡبَصَرُ خَاسِئٗا وَهُوَ حَسِيرٞ <span class="text-brand-gold font-sans text-sm inline-block mx-1">﴿٤﴾</span>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-brand-gold/20 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500">
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600"></span> إخفاء حقيقي</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500"></span> إدغام بغنة</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600"></span> قلقلة كبرى/صغرى</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-600"></span> مد واجب/متصل</span>
+            </div>
+          </div>
+
+          <!-- شريط التحكم الصوتي بالمقطع -->
+          <div class="bg-stone-50 rounded-xl p-3.5 border border-stone-200 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <button onclick="toggleAudioDemo()" id="btn-play-audio" class="w-10 h-10 rounded-full bg-brand-emerald text-white flex items-center justify-center shadow-xs hover:bg-brand-emerald-dark transition-all cursor-pointer">
+                <i data-lucide="play" id="play-icon" class="w-4 h-4 ml-0.5"></i>
+              </button>
+              <div>
+                <span class="text-xs font-bold text-slate-800 block">تلاوة مرجعية للشيخ الحصري</span>
+                <span class="text-[10px] text-slate-500">لضبط أزمنة الغنن ومقادير المدود</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono text-slate-500">01:45 / 03:20</span>
+          </div>
+
+        </div>
+
+        <!-- لوحة تقييم المعلم وملاحظات التجويد -->
+        <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-brand-gold/30 shadow-md space-y-5">
+          <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+            <h3 class="font-bold text-base text-brand-emerald font-serif flex items-center gap-2">
+              <i data-lucide="clipboard-check" class="w-5 h-5 text-brand-gold"></i>
+              <span>لوحة تقييم التلاوة</span>
+            </h3>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">مباشر</span>
+          </div>
+
+          <!-- مؤشر درجة الإتقان -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-slate-700">درجة إتقان المقطع:</span>
+              <span id="score-display" class="text-base font-bold font-serif text-brand-emerald">96 / 100</span>
+            </div>
+            <input type="range" id="score-slider" min="50" max="100" value="96" oninput="updateScore(this.value)" class="w-full accent-brand-emerald cursor-pointer">
+            <div class="flex justify-between text-[10px] text-slate-400">
+              <span>يحتاج إعادة (50)</span>
+              <span>جيد (75)</span>
+              <span>ممتاز متقن (100)</span>
+            </div>
+          </div>
+
+          <!-- قائمة الأحكام والملاحظات التجويدية السريعة -->
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-slate-700 block">رصد أحكام التجويد المطبقة:</span>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200 cursor-pointer hover:bg-stone-100">
+                <input type="checkbox" checked class="accent-brand-emerald">
+                <span>توفية أزمنة الغنن</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200 cursor-pointer hover:bg-stone-100">
+                <input type="checkbox" checked class="accent-brand-emerald">
+                <span>إتمام الحركات</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200 cursor-pointer hover:bg-stone-100">
+                <input type="checkbox" checked class="accent-brand-emerald">
+                <span>تصفية القلقلة</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200 cursor-pointer hover:bg-stone-100">
+                <input type="checkbox" class="accent-brand-emerald">
+                <span>ترقيق الراء المكسورة</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- توجيه الشيخ وملاحظاته -->
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-700 block">ملاحظات وتوجيهات الشيخ المقرئ:</label>
+            <textarea id="sheikh-notes" rows="3" class="w-full text-xs p-3 rounded-xl border border-stone-200 focus:border-brand-emerald focus:ring-1 focus:ring-brand-emerald outline-hidden resize-none" placeholder="اكتب الملاحظات التجويدية للطالب هنا...">ما شاء الله تبارك الله، تلاوة خاشعة ومتقنة مع ضبط بديع لمخارج الحروف. استمر على هذا الأداء المبارك.</textarea>
+          </div>
+
+          <!-- زر اعتماد التسميع وحفظ التقييم -->
+          <button onclick="submitEvaluation()" class="w-full py-3 rounded-xl gold-gradient text-brand-slate font-bold text-xs shadow-md hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            <span>اعتماد التقييم وإرسال النتيجة للطالب</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================== -->
+    <!-- تبويب 4: قسم الإجازات والقراءات العشر والسند (Sanad Tab)  -->
+    <!-- ======================================================== -->
+    <section id="tab-sanad" class="tab-content hidden space-y-6">
+      
+      <!-- ترويسة السند المتصل -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-brand-gold/30 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <span class="text-xs font-bold text-brand-gold-dark px-3 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/30">مسار الإجازات والختمات القرآنية</span>
+          <h2 class="text-2xl font-bold font-serif text-brand-emerald">شجرة السند المتصل إلى النبي ﷺ</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+            تمنح مقرأة رحاب القرآن الإلكترونية الإجازات بالسند المتصل برواية حفص عن عاصم، والقراءات السبع والعشر الصغرى والكبرى بعد إتمام الختمة كاملة غيباً مع الضبط والإتقان التام.
+          </p>
+        </div>
+        <div class="w-24 h-24 rounded-2xl bg-brand-ivory border-2 border-brand-gold/40 flex items-center justify-center p-2 shrink-0">
+          <img src="/brand/official-seal.png" alt="الختم الرسمي للمقرأة" class="w-full h-full object-contain" onerror="this.src='/brand/official-logo.png'; this.onerror=null;">
+        </div>
+      </div>
+
+      <!-- شبكة القراءات العشر المعتمدة في المقرأة -->
+      <div>
+        <h3 class="font-bold text-lg font-serif text-brand-emerald mb-4">الأئمة العشرة ورواتهم المعتمدون في المقرأة</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام الأول</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">نافع المدني</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">قالون • ورش</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام الثاني</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">ابن كثير المكي</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">البزي • قنبل</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام الثالث</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">أبو عمرو البصري</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">الدوري • السوسي</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام الرابع</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">ابن عامر الشامي</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">هشام • ابن ذكوان</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border-2 border-brand-gold shadow-sm hover:border-brand-emerald transition-all text-center bg-brand-ivory/60">
+            <span class="text-[10px] text-emerald-800 font-bold">الإمام الخامس (روايتك الحالية)</span>
+            <h4 class="font-serif font-bold text-brand-emerald text-sm mt-1">عاصم الكوفي</h4>
+            <p class="text-[11px] text-slate-700 font-bold mt-0.5">شعبة • حفص</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام السادس</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">حمزة الكوفي</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">خلف • خلاد</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام السابع</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">الكسائي الكوفي</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">أبو الحارث • الدوري</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام الثامن</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">أبو جعفر المدني</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">ابن وردان • ابن جماز</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام التاسع</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">يعقوب الحضرمي</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">رويس • روح</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 border border-brand-gold/30 shadow-xs hover:border-brand-emerald transition-all text-center">
+            <span class="text-[10px] text-brand-gold-dark font-bold">الإمام العاشر</span>
+            <h4 class="font-serif font-bold text-slate-800 text-sm mt-1">خلف العاشر</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">إسحاق • إدريس</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- معاينة شهادة الإجازة القرآنية الرسمية 2026 -->
+      <div class="bg-white rounded-3xl p-6 sm:p-10 border-2 border-brand-gold shadow-lg max-w-4xl mx-auto space-y-6 text-center">
+        <div class="border-b-2 border-brand-gold/30 pb-4">
+          <h3 class="text-xl font-bold font-serif text-brand-emerald">نموذج الإجازة القرآنية المعتمدة بالسند المتصل</h3>
+          <p class="text-xs text-slate-500 mt-1">تصدر الشهادة الرسمية وتُوقع من إدارة المقرأة والشيخ المجيز</p>
+        </div>
+
+        <div class="bg-brand-ivory p-6 sm:p-8 rounded-2xl border border-brand-gold/40 text-center space-y-4 font-serif">
+          <p class="text-xs font-sans text-brand-gold-dark font-bold tracking-widest">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+          <h4 class="text-2xl font-bold text-brand-emerald">شهادة إجازة وإتقان في حفظ القرآن الكريم</h4>
+          <p class="text-sm leading-relaxed text-slate-700 max-w-xl mx-auto">
+            تشهد إدارة مقرأة رحاب القرآن الإلكترونية بأن الطالب: <strong class="text-brand-emerald text-base">أحمد بن خالد اليمني</strong> قد أتم عرض القرآن الكريم كاملاً غيباً عن ظهر قلب برواية <strong class="text-brand-emerald">حفص عن عاصم من طريق الشاطبية</strong>، إتقاناً وتجويداً وضبطاً، وأُجيز بالقراءة والإقراء.
+          </p>
+
+          <div class="pt-6 flex flex-wrap items-center justify-around gap-6 border-t border-brand-gold/30 text-xs font-sans">
+            <div>
+              <span class="text-slate-400 block">المشرف العام على المقرأة</span>
+              <span class="font-bold text-brand-emerald text-sm mt-1 block font-serif">فضيلة الشيخ د. علي عزيزي</span>
+            </div>
+            
+            <div class="w-16 h-16 rounded-full bg-white border border-brand-gold/40 flex items-center justify-center p-1 shadow-xs">
+              <img src="/brand/official-seal.png" alt="الختم" class="w-full h-full object-contain" onerror="this.src='/brand/official-logo.png'; this.onerror=null;">
+            </div>
+
+            <div>
+              <span class="text-slate-400 block">رقم السجل الأكاديمي</span>
+              <span class="font-bold text-slate-800 text-sm mt-1 block">RQ-2026-CERT-0192</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================== -->
+    <!-- تبويب 5: منهج التجويد النظري والعملي (Curriculum Tab)      -->
+    <!-- ======================================================== -->
+    <section id="tab-curriculum" class="tab-content hidden space-y-6">
+      
+      <div class="bg-white rounded-2xl p-6 border border-brand-gold/25 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold font-serif text-brand-emerald">منهج التجويد المتسلسل المعتمد (2026)</h2>
+          <p class="text-xs text-slate-500 mt-1">دروس تفاعلية، اختبارات قياس مستوى، وتطبيقات عملية على المصحف الشريف</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-brand-emerald bg-brand-emerald/10 px-3 py-1.5 rounded-lg border border-brand-emerald/20">نسبة اجتياز المنهج: 75%</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-xs space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">المستوى 1</span>
+            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
+          </div>
+          <h3 class="font-serif font-bold text-base text-slate-900">مقدمات علم التجويد وحكمه</h3>
+          <p class="text-xs text-slate-500">التعريف، الاستعاذة والبسملة، مراتب القراءة واللحن.</p>
+          <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+            <span class="text-emerald-600 font-bold">تم الاجتياز بنسبة 100%</span>
+            <button class="text-brand-emerald font-bold hover:underline">مراجعة</button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-xs space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">المستوى 2</span>
+            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
+          </div>
+          <h3 class="font-serif font-bold text-slate-900">مخارج الحروف وصفاتها</h3>
+          <p class="text-xs text-slate-500">المخارج العامة والخاصة، صفات الحروف التي لها ضد والتي لا ضد لها.</p>
+          <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+            <span class="text-emerald-600 font-bold">تم الاجتياز بنسبة 95%</span>
+            <button class="text-brand-emerald font-bold hover:underline">مراجعة</button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border-2 border-brand-gold shadow-sm space-y-3 bg-brand-ivory/40">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md">المستوى 3 (الحالي)</span>
+            <i data-lucide="clock" class="w-5 h-5 text-brand-gold"></i>
+          </div>
+          <h3 class="font-serif font-bold text-base text-slate-900">أحكام النون الساكنة والتنوين</h3>
+          <p class="text-xs text-slate-500">الإظهار، الإدغام، الإقلاب، والإخفاء الحقيقي مع التطبيق العملي.</p>
+          <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+            <span class="text-brand-gold-dark font-bold">جارٍ الدراسة • اختبار الدرس 4</span>
+            <button onclick="switchTab('recitation-room')" class="px-3 py-1 rounded-md bg-brand-emerald text-white font-bold hover:bg-brand-emerald-dark">ابدأ</button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ======================================================== -->
+  <!-- 3. نافذة منبثقة بسيطة (Modal) لسيرة الشيخ والسند          -->
+  <!-- ======================================================== -->
+  <div id="sheikh-bio-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 border-2 border-brand-gold shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+        <h3 id="bio-modal-title" class="font-bold text-lg font-serif text-brand-emerald">السيرة الذاتية والسند</h3>
+        <button onclick="closeSheikhBio()" class="p-1.5 rounded-lg hover:bg-stone-100 text-slate-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
+        <p id="bio-modal-desc">
+          فضيلة الشيخ الدكتور علي عزيزي، المشرف العام على مقرأة رحاب القرآن الإلكترونية. مجاز بالقراءات العشر الصغرى والكبرى بالسند المتصل إلى رسول الله ﷺ، وله مؤلفات وبحوث متخصصة في علم التجويد والرسم العثماني.
+        </p>
+        <div class="p-3 bg-brand-ivory rounded-xl border border-brand-gold/30 text-xs">
+          <span class="font-bold text-brand-emerald block mb-1">طريق السند:</span>
+          عن مشايخ الحرمين الشريفين واليمن ومصر، بسند متصل إلى الإمام عاصم بن أبي النجود، عن أبي عبد الرحمن السلمي، عن عثمان بن عفان وعلي بن أبي طالب وزيد بن ثابت وأبي بن كعب، عن رسول الله ﷺ.
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end">
+        <button onclick="closeSheikhBio()" class="px-5 py-2.5 rounded-xl bg-brand-emerald text-white font-bold text-xs hover:bg-brand-emerald-dark">
+          إغلاق النافذة
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- 4. تذييل الصفحة الرسمي (Footer)                          -->
+  <!-- ======================================================== -->
+  <footer class="mt-12 bg-white border-t border-brand-gold/30 py-8 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img src="/brand/official-logo-small.png" alt="الشعار" class="w-8 h-8 object-contain">
+        <div>
+          <span class="font-bold text-brand-emerald font-serif text-sm">مقرأة رحاب القرآن الإلكترونية</span>
+          <p class="text-[11px] text-slate-400">جميع الحقوق محفوظة © 2026 • تعليم القرآن بالسند المتصل</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-xs font-semibold text-slate-600">
+        <button onclick="switchTab('dashboard')" class="hover:text-brand-emerald">لوحة الطالب</button>
+        <button onclick="switchTab('halqat')" class="hover:text-brand-emerald">الحلقات المباشرة</button>
+        <button onclick="switchTab('recitation-room')" class="hover:text-brand-emerald">غرفة التسميع</button>
+        <button onclick="switchTab('sanad')" class="hover:text-brand-emerald">مسار السند</button>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ======================================================== -->
+  <!-- 5. جافاسكربت التفاعلي المدمج (Interactive Embedded JS)   -->
+  <!-- ======================================================== -->
+  <script>
+    // 1. إدارة التبويبات والتنقل
+    function switchTab(tabId) {
+      // إخفاء كافة المحتويات
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.add('hidden'));
+
+      // إظهار التبويب المطلوب
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      // تحديث أزرار الشريط العلوي
+      const navButtons = document.querySelectorAll('.nav-item');
+      navButtons.forEach(btn => {
+        btn.classList.remove('text-brand-emerald', 'bg-brand-emerald/10', 'border', 'border-brand-emerald/20');
+        btn.classList.add('text-slate-600');
+      });
+
+      const activeBtn = document.getElementById(`nav-btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-600');
+        activeBtn.classList.add('text-brand-emerald', 'bg-brand-emerald/10', 'border', 'border-brand-emerald/20');
+      }
+
+      // إغلاق القائمة في الموبايل إن كانت مفتوحة
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+      }
+
+      // إعادة إنشاء الأيقونات في حال تم تحميل عناصر جديدة
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. التحكم في قائمة الإشعارات
+    function toggleNotifications() {
+      const menu = document.getElementById('notifications-menu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    // 3. القائمة في شاشات الجوال
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    // 4. الانتقال لغرفة التسميع مع بيانات الحلقة المحددة
+    function enterRecitationRoom(sheikhName, halqaTitle) {
+      const sheikhElem = document.getElementById('current-sheikh-name');
+      const halqaBadge = document.getElementById('current-room-badge');
+      if (sheikhElem) sheikhElem.textContent = sheikhName;
+      if (halqaBadge) halqaBadge.textContent = halqaTitle;
+
+      switchTab('recitation-room');
+    }
+
+    // 5. محاكاة بدء وإيقاف التسجيل الصوتي المباشر
+    let isRecording = false;
+    let recordInterval = null;
+    let recordSeconds = 0;
+
+    function toggleRecording() {
+      isRecording = !isRecording;
+      const btn = document.getElementById('btn-toggle-record');
+      const text = document.getElementById('record-text');
+      const timer = document.getElementById('record-timer');
+
+      if (isRecording) {
+        recordSeconds = 0;
+        text.textContent = 'جارٍ التسميع الحي (إيقاف)';
+        btn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+        btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700', 'animate-pulse');
+        timer.classList.remove('hidden');
+
+        recordInterval = setInterval(() => {
+          recordSeconds++;
+          const mins = String(Math.floor(recordSeconds / 60)).padStart(2, '0');
+          const secs = String(recordSeconds % 60).padStart(2, '0');
+          timer.textContent = `${mins}:${secs}`;
+        }, 1000);
+      } else {
+        clearInterval(recordInterval);
+        text.textContent = 'بدء التسميع الحي';
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700', 'animate-pulse');
+        btn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+        timer.classList.add('hidden');
+        alert('تم الانتهاء من تسجيل مقطع التلاوة بنجاح، يمكنك الآن رصد التقييم وحفظ النتيجة.');
+      }
+    }
+
+    // 6. تشغيل التلاوة المرجعية التجريبية
+    let isAudioPlaying = false;
+    function toggleAudioDemo() {
+      isAudioPlaying = !isAudioPlaying;
+      const playIcon = document.getElementById('play-icon');
+      if (isAudioPlaying) {
+        if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
+      } else {
+        if (playIcon) playIcon.setAttribute('data-lucide', 'play');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleAudioMute() {
+      const icon = document.getElementById('mute-icon');
+      if (icon) {
+        const isMuted = icon.getAttribute('data-lucide') === 'volume-x';
+        icon.setAttribute('data-lucide', isMuted ? 'volume-2' : 'volume-x');
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    function toggleCamera() {
+      alert('تم تشغيل كاميرا الشيخ للمقرأة المباشرة لمتابعة مخارج الحروف.');
+    }
+
+    // 7. تحديث مؤشر الدرجة في لوحة التقييم
+    function updateScore(val) {
+      const display = document.getElementById('score-display');
+      if (display) {
+        display.textContent = `${val} / 100`;
+      }
+    }
+
+    // 8. اعتماد تقييم التسميع
+    function submitEvaluation() {
+      const score = document.getElementById('score-slider')?.value || '96';
+      alert(`بارك الله فيك، تم اعتماد تقييم التلاوة بدرجة (${score}%) بنجاح، وتم إرسال الإشعار لملف الطالب والشهادات.`);
+    }
+
+    // 9. النوافذ المنبثقة لسيرة الشيخ
+    function showSheikBio(name) {
+      const modal = document.getElementById('sheikh-bio-modal');
+      const title = document.getElementById('bio-modal-title');
+      if (title) title.textContent = `السيرة الذاتية: ${name}`;
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeSheikhBio() {
+      const modal = document.getElementById('sheikh-bio-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // 10. تبديل مقطع الآيات
+    let currentAyahIndex = 1;
+    function changeAyah(dir) {
+      currentAyahIndex += dir;
+      if (currentAyahIndex < 1) currentAyahIndex = 1;
+      if (currentAyahIndex > 6) currentAyahIndex = 6;
+      alert(`انتقلت إلى مقطع الآيات رقم (${currentAyahIndex}) في سورة الملك.`);
+    }
+
+    // إغلاق القوائم المنسدلة عند النقر في الخارج
+    document.addEventListener('click', function(e) {
+      const notifMenu = document.getElementById('notifications-menu');
+      if (notifMenu && !notifMenu.contains(e.target) && !e.target.closest('button[onclick="toggleNotifications()"]')) {
+        notifMenu.classList.add('hidden');
+      }
+    });
+
+    // تشغيل الأيقونات فور تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

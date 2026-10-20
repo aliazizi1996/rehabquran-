@@ -1,0 +1,175 @@
+[
+  {
+    "id": "log_1792261999214_5lb2o",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-17T18:33:21.428Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1792261487937_iaols",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-17T18:24:51.191Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791749954849_dyzch",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T20:19:18.392Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791749600925_j3vgw",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T20:13:24.593Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791748616072_91g64",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T19:57:00.004Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791746341391_q3mtc",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T19:19:05.567Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791745950046_nsc6p",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T19:12:34.256Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791745881176_lwfo9",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T19:11:25.376Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791745632435_u2bfx",
+    "userId": "yLdYCA1gftXI3jfq2zUQ5sCjsOA2",
+    "userEmail": "aliazize101@gmail.com",
+    "userRole": "student",
+    "action": "LOGIN_SUCCESS",
+    "details": "تسجيل دخول ناجح بالبريد وكلمة المرور",
+    "timestamp": "2026-10-11T19:07:16.631Z",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791452294600_8vp4q",
+    "timestamp": "2026-10-08T09:38:14.593Z",
+    "action": "ADMIN_ROUTE_ACCESS: GET /api/admin/students/auth-sync-status",
+    "targetUserId": "JGkaL547GnMDh3ajLQjXtcOrKY83",
+    "adminUid": "JGkaL547GnMDh3ajLQjXtcOrKY83",
+    "adminEmail": "temp_admin_test_3@rehab-quran.com",
+    "role": "system_admin",
+    "ip": "127.0.0.1",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791452261359_ewkjn",
+    "timestamp": "2026-10-08T09:37:41.358Z",
+    "action": "ADMIN_ROUTE_ACCESS: GET /api/admin/students/auth-sync-status",
+    "targetUserId": "hApr8jYHtlh73QAC1MWd8ERBBBo2",
+    "adminUid": "hApr8jYHtlh73QAC1MWd8ERBBBo2",
+    "adminEmail": "temp_admin_test_2@rehab-quran.com",
+    "role": "system_admin",
+    "ip": "127.0.0.1",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1791452198994_6zpbs",
+    "timestamp": "2026-10-08T09:36:38.987Z",
+    "action": "ADMIN_ROUTE_ACCESS: GET /api/admin/students/auth-sync-status",
+    "targetUserId": "pGPXYeHIczb92RdOxW0PStpeEvI3",
+    "adminUid": "pGPXYeHIczb92RdOxW0PStpeEvI3",
+    "adminEmail": "temp_admin_runner@rehab-quran.com",
+    "role": "system_admin",
+    "ip": "127.0.0.1",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "audit_1790883873816",
+    "userId": "admin_master_aliazize101",
+    "userEmail": "aliazize101@gmail.com",
+    "action": "MASTER_ADMIN_PROVISIONED",
+    "details": "تم اعتماد وتعيين حساب المشرف العام (د. علي عزيزي (المشرف العام)) بصلاحيات system_admin كاملة بواسطة سكربت الخادم لمرة واحدة.",
+    "timestamp": "2026-10-01T19:44:33.816Z",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1790631314371_xak77",
+    "userId": "std-1",
+    "action": "EVALUATION_FCM_SENT",
+    "details": "تم إرسال إشعار تقييم تلاوة فوري للطالب (عبدالرحمن محمد) في سورة (سورة الكهف)",
+    "timestamp": "2026-09-28T21:35:14.371Z",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1790631311215_szbtz",
+    "userId": "system",
+    "action": "HALQA_START_FCM_SENT",
+    "details": "تم إرسال إشعار فوري لبدء حلقة (حلقة الإتقان والإسناد) لـ 1 طالب",
+    "timestamp": "2026-09-28T21:35:11.215Z",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "log_1790454381920_2ad68",
+    "userId": "test_uid",
+    "action": "COMPROMISED_KEY_BLOCKED",
+    "details": "تم حظر محاولة استخدام المفتاح الملغى والمكشوف (rehab_admin_master_key_2026)",
+    "timestamp": "2026-09-26T20:26:21.919Z",
+    "status": "FAILED"
+  },
+  {
+    "id": "log_1790454378371_be9m3",
+    "userId": "test_uid",
+    "action": "COMPROMISED_KEY_BLOCKED",
+    "details": "تم حظر محاولة استخدام المفتاح الملغى والمكشوف (rehab_admin_master_key_2026)",
+    "timestamp": "2026-09-26T20:26:18.371Z",
+    "status": "FAILED"
+  }
+]

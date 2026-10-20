@@ -1,0 +1,958 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "نموذج المستخدم الشامل لمنظومة المقرأة والصلاحيات",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "student",
+            "teacher",
+            "academic_supervisor",
+            "system_admin",
+            "parent",
+            "quality_auditor"
+          ]
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female"
+          ]
+        },
+        "country": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "avatarUrl": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "lastLoginAt": {
+          "type": "string"
+        },
+        "notificationPreferences": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "fullName",
+        "email",
+        "phone",
+        "role",
+        "gender",
+        "country",
+        "timezone",
+        "isActive",
+        "emailVerified",
+        "createdAt"
+      ]
+    },
+    "SecurityLog": {
+      "title": "SecurityLog",
+      "description": "سجل النشاط الأمني وعمليات الدخول وتغيير الصلاحيات",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "ipAddress": {
+          "type": "string"
+        },
+        "userAgent": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "action",
+        "timestamp",
+        "status"
+      ]
+    },
+    "AudioSubmission": {
+      "title": "AudioSubmission",
+      "description": "تسجيلات التسميع الصوتي المباشر والخاصة بالطلاب",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "teacherId": {
+          "type": "string"
+        },
+        "sheikhName": {
+          "type": "string"
+        },
+        "surahName": {
+          "type": "string"
+        },
+        "surahNumber": {
+          "type": "number"
+        },
+        "ayahStart": {
+          "type": "number"
+        },
+        "ayahEnd": {
+          "type": "number"
+        },
+        "audioBlobUrl": {
+          "type": "string"
+        },
+        "durationSeconds": {
+          "type": "number"
+        },
+        "recordedAt": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "studentName",
+        "surahName",
+        "recordedAt",
+        "status"
+      ]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "بيانات تسجيل الطلاب في المقرأة",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "parentUserId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "academicId": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female"
+          ]
+        },
+        "age": {
+          "type": "number"
+        },
+        "cityCountry": {
+          "type": "string"
+        },
+        "studyType": {
+          "type": "string"
+        },
+        "className": {
+          "type": "string"
+        },
+        "assignedHalqaId": {
+          "type": "string"
+        },
+        "teacherName": {
+          "type": "string"
+        },
+        "teacherId": {
+          "type": "string"
+        },
+        "currentSurah": {
+          "type": "string"
+        },
+        "currentJuz": {
+          "type": "number"
+        },
+        "attendanceRate": {
+          "type": "number"
+        },
+        "registeredAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "academicId",
+        "phone"
+      ]
+    },
+    "Teacher": {
+      "title": "Teacher",
+      "description": "بيانات تسجيل ومتابعة المعلمين والمعلمات",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "qualification": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female"
+          ]
+        },
+        "assignedHalqa": {
+          "type": "string"
+        },
+        "assignedHalqaId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "phone"
+      ]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "سجلات الحضور والغياب للطلاب في الحلقات",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "halqaId": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "present",
+            "absent",
+            "late",
+            "excused"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "date",
+        "status"
+      ]
+    },
+    "FinancialContribution": {
+      "title": "FinancialContribution",
+      "description": "بيانات وسجلات المساهمات والتبرعات المالية للمقرأة",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "donorName": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "kefala_sheikh",
+            "student_support",
+            "waqf",
+            "general"
+          ]
+        },
+        "bankAccount": {
+          "type": "string"
+        },
+        "transferReference": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "confirmed",
+            "pending",
+            "verified"
+          ]
+        },
+        "date": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "amount",
+        "date"
+      ]
+    },
+    "StudentApplication": {
+      "title": "StudentApplication",
+      "description": "طلبات واستمارات التسجيل للطلاب والطالبات",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female"
+          ]
+        },
+        "age": {
+          "type": "number"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "whatsapp": {
+          "type": "string",
+          "description": "رقم واتساب الطالب للتواصل وإرسال بيانات الدخول والقبول"
+        },
+        "country": {
+          "type": "string"
+        },
+        "memorization": {
+          "type": "string"
+        },
+        "studyType": {
+          "type": "string"
+        },
+        "riwayah": {
+          "type": "string"
+        },
+        "preferredTime": {
+          "type": "string"
+        },
+        "preferredTimeDetail": {
+          "type": "string"
+        },
+        "monthlyContribution": {
+          "type": "string"
+        },
+        "academicId": {
+          "type": "string",
+          "description": "الرقم الأكاديمي الفريد المُنشأ للطالب عند القبول"
+        },
+        "rejectionReason": {
+          "type": "string",
+          "description": "سبب رفض طلب التسجيل إن وُجد"
+        },
+        "approvedAt": {
+          "type": "string"
+        },
+        "approvedBy": {
+          "type": "string"
+        },
+        "rejectedAt": {
+          "type": "string"
+        },
+        "rejectedBy": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending_review",
+            "approved",
+            "rejected",
+            "pending"
+          ]
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "fullName",
+        "whatsapp",
+        "gender"
+      ]
+    },
+    "TestDocument": {
+      "title": "TestDocument",
+      "description": "فحص اتصال السيرفر مع فايرستور",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "CurriculumLesson": {
+      "title": "CurriculumLesson",
+      "description": "دروس التجويد المتدرجة لمقرأة رحاب القرآن",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "chapterId": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "textContent": {
+          "type": "string"
+        },
+        "videoUrl": {
+          "type": "string"
+        },
+        "audioUrl": {
+          "type": "string"
+        },
+        "pdfUrl": {
+          "type": "string"
+        },
+        "minPassingScore": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "chapterId",
+        "title",
+        "order"
+      ]
+    },
+    "StudentLessonProgress": {
+      "title": "StudentLessonProgress",
+      "description": "سجل إنجاز واختبارات الطالب لدروس المنهج",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "lessonId": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "percentage": {
+          "type": "number"
+        },
+        "attemptsCount": {
+          "type": "number"
+        },
+        "completedAt": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "lessonId",
+        "score",
+        "percentage",
+        "attemptsCount",
+        "status"
+      ]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "مهام وخطط الحفظ والمراجعة والواجبات المجدولة للطلاب والمعلمين",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "memorization",
+            "revision",
+            "halqa",
+            "recitation",
+            "exam",
+            "general"
+          ]
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "teacherId": {
+          "type": "string"
+        },
+        "teacherName": {
+          "type": "string"
+        },
+        "halqaId": {
+          "type": "string"
+        },
+        "halqaTitle": {
+          "type": "string"
+        },
+        "dueDate": {
+          "type": "string"
+        },
+        "dueTime": {
+          "type": "string"
+        },
+        "surahName": {
+          "type": "string"
+        },
+        "fromAyah": {
+          "type": "number"
+        },
+        "toAyah": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "in_progress",
+            "completed",
+            "overdue"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        },
+        "completedAt": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "type",
+        "dueDate",
+        "status"
+      ]
+    },
+    "ScheduleSession": {
+      "title": "ScheduleSession",
+      "description": "جلسات وحلقات ومواعيد التقويم التفاعلي المجدولة",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "halqaId": {
+          "type": "string"
+        },
+        "halqaTitle": {
+          "type": "string"
+        },
+        "teacherId": {
+          "type": "string"
+        },
+        "teacherName": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female",
+            "both"
+          ]
+        },
+        "date": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "timeDisplay": {
+          "type": "string"
+        },
+        "durationMinutes": {
+          "type": "number"
+        },
+        "meetingUrl": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "halqa",
+            "individual",
+            "exam",
+            "lecture"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "upcoming",
+            "live",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "date",
+        "startTime",
+        "status"
+      ]
+    },
+    "MonthlyContribution": {
+      "title": "MonthlyContribution",
+      "description": "سجلات المساهمة الشهرية لدعم المقرأة وكفالة حلقات القرآن وتكاليف المعلمين",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "month": {
+          "type": "string"
+        },
+        "monthLabel": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "due",
+            "pending_confirmation",
+            "paid"
+          ]
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "transferReference": {
+          "type": "string"
+        },
+        "studentNotes": {
+          "type": "string"
+        },
+        "paymentReportedAt": {
+          "type": "string"
+        },
+        "paidAt": {
+          "type": "string"
+        },
+        "confirmedByAdminId": {
+          "type": "string"
+        },
+        "confirmedByAdminName": {
+          "type": "string"
+        },
+        "confirmedAt": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "studentId",
+        "month",
+        "status"
+      ]
+    },
+    "TajweedPdfSettings": {
+      "title": "TajweedPdfSettings",
+      "description": "إعدادات وثائق وملخصات دروس التجويد PDF للمقرأة",
+      "type": "object",
+      "properties": {
+        "academyName": {
+          "type": "string"
+        },
+        "headerBismillah": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "sealUrl": {
+          "type": "string"
+        },
+        "contactPhone": {
+          "type": "string"
+        },
+        "whatsappUrl": {
+          "type": "string"
+        },
+        "contactEmail": {
+          "type": "string"
+        },
+        "copyrightText": {
+          "type": "string"
+        },
+        "watermarkEnabled": {
+          "type": "boolean"
+        },
+        "watermarkOpacity": {
+          "type": "number"
+        },
+        "lastUpdated": {
+          "type": "number"
+        }
+      }
+    },
+    "PublicTeacher": {
+      "title": "PublicTeacher",
+      "description": "بيانات كادر المعلمين والمشايخ المعروضة للجمهور والزوار",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "qualification": {
+          "type": "string"
+        },
+        "experience": {
+          "type": "string"
+        },
+        "roleLabel": {
+          "type": "string"
+        },
+        "riwayah": {
+          "type": "string"
+        },
+        "isCertified": {
+          "type": "boolean"
+        },
+        "order": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "firestore": {
+    "/public_teachers/{teacherId}": {
+      "schema": "PublicTeacher",
+      "description": "قائمة المعلمين المتاحة للعرض العام للزوار دون كشف البيانات الحساسة"
+    },
+    "/curriculum_settings/{settingId}": {
+      "schema": "TajweedPdfSettings",
+      "description": "إعدادات وثائق وملخصات دروس التجويد PDF للمقرأة"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "الملفات الشخصية وحسابات المستخدمين مع الصلاحيات والأدوار الستة"
+    },
+    "/security_logs/{logId}": {
+      "schema": "SecurityLog",
+      "description": "سجلات النشاط الأمني وتتبع الدخول"
+    },
+    "/audio_submissions/{submissionId}": {
+      "schema": "AudioSubmission",
+      "description": "التسجيلات الصوتية المحمية للطلاب والمعلمين"
+    },
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "مجموعة بيانات طلاب المقرأة"
+    },
+    "/teachers/{teacherId}": {
+      "schema": "Teacher",
+      "description": "مجموعة بيانات المعلمين والمعلمات"
+    },
+    "/attendance/{attendanceId}": {
+      "schema": "AttendanceRecord",
+      "description": "سجلات الحضور والغياب"
+    },
+    "/financialContributions/{contributionId}": {
+      "schema": "FinancialContribution",
+      "description": "سجلات المساهمات المالية ودعم المقرأة"
+    },
+    "/student_applications/{applicationId}": {
+      "schema": "StudentApplication",
+      "description": "مجموعة استمارات تسجيل الطلاب الجدد"
+    },
+    "/curriculum_lessons/{lessonId}": {
+      "schema": "CurriculumLesson",
+      "description": "دروس المنهج المتدرج"
+    },
+    "/student_lesson_progress/{progressId}": {
+      "schema": "StudentLessonProgress",
+      "description": "سجلات تقدم واختبارات الطلاب للدروس"
+    },
+    "/test/{docId}": {
+      "schema": "TestDocument",
+      "description": "مجموعة فحص الاتصال"
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "مجموعة مهام الحفظ والمراجعة الفردية والجماعية للطلاب والمعلمين"
+    },
+    "/schedules/{scheduleId}": {
+      "schema": "ScheduleSession",
+      "description": "مواعيد وجداول الحلقات المباشرة واللقاءات التفاعلية"
+    },
+    "/monthly_contributions/{contributionId}": {
+      "schema": "MonthlyContribution",
+      "description": "سجلات المساهمة الشهرية للطلاب مع الإبلاغ والمصادقة الإدارية وتغطية تكاليف الإنترنت"
+    }
+  }
+}

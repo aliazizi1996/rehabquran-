@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تقرير سير عمل المقرأة وطلب دعم تشغيلي - جمعية البر والتقوى الخيرية</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary-green: #046A38;
+      --deep-forest: #02361c;
+      --royal-gold: #C5A059;
+      --gold-light: #fdfaf2;
+      --gold-border: #dfc282;
+      --warm-ivory: #F9F6F0;
+      --dark-slate: #2C3531;
+      --muted-gray: #55625d;
+      --light-border: #e3ded5;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: 'Noto Kufi Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f3efe6;
+      color: var(--dark-slate);
+      line-height: 1.75;
+      font-size: 12.5px;
+      padding: 24px 12px;
+      direction: rtl;
+      text-align: right;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .document-wrapper {
+      max-width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 18mm 18mm 18mm 18mm;
+      position: relative;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      border: 1px solid #d5cebf;
+      box-sizing: border-box;
+    }
+
+    .document-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 440px;
+      height: 440px;
+      background-image: url('/brand/official-logo.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      opacity: 0.045;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .content-layer {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--primary-green);
+      text-align: center;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .header-bismillah::before,
+    .header-bismillah::after {
+      content: '❖';
+      color: var(--royal-gold);
+      font-size: 13px;
+    }
+
+    /* ===== تعديل الترويسة لتكون في المنتصف ===== */
+    .official-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      border-bottom: 2.5px solid var(--royal-gold);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+    .header-logo {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1.5px solid var(--royal-gold);
+      padding: 3px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .academy-name {
+      font-family: 'Amiri', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary-green);
+      line-height: 1.2;
+    }
+    .academy-subtext {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--royal-gold);
+      letter-spacing: 0.2px;
+    }
+    .header-left {
+      text-align: center;
+      font-size: 11.5px;
+      color: var(--muted-gray);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 5px;
+    }
+    .badge-official {
+      background: var(--primary-green);
+      color: #ffffff;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .report-main-banner {
+      background: linear-gradient(135deg, var(--deep-forest) 0%, var(--primary-green) 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      border-right: 6px solid var(--royal-gold);
+      box-shadow: 0 4px 14px rgba(4, 106, 56, 0.16);
+      page-break-inside: avoid;
+    }
+    .report-badge-top {
+      font-size: 11px;
+      color: #fce8bd;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .report-title-heading {
+      font-family: 'Amiri', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      margin: 4px 0;
+    }
+    .report-target-meta {
+      font-size: 12px;
+      color: #e2f5ea;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .address-letter-box {
+      background: var(--gold-light);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      page-break-inside: avoid;
+    }
+    .address-to-line {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary-green);
+      margin-bottom: 4px;
+      font-family: 'Amiri', serif;
+    }
+    .address-org-name {
+      color: #8c6a21;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .salutation {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dark-slate);
+      margin-bottom: 8px;
+    }
+    .letter-body-p {
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--dark-slate);
+      text-align: justify;
+      margin-bottom: 6px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+      page-break-inside: avoid;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--light-border);
+      border-top: 3.5px solid var(--primary-green);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .kpi-card.gold-border {
+      border-top-color: var(--royal-gold);
+    }
+    .kpi-value {
+      font-family: 'Amiri', serif;
+      font-size: 23px;
+      font-weight: 700;
+      color: var(--primary-green);
+      line-height: 1.1;
+      margin-top: 2px;
+    }
+    .kpi-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--muted-gray);
+    }
+    .kpi-sub {
+      font-size: 9.5px;
+      color: var(--royal-gold);
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: 'Amiri', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-green);
+      border-bottom: 1.5px solid var(--royal-gold);
+      padding-bottom: 5px;
+      margin: 16px 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      page-break-after: avoid;
+    }
+    .section-title-icon {
+      color: var(--royal-gold);
+      font-size: 15px;
+    }
+
+    .report-table-container {
+      width: 100%;
+      border: 1px solid var(--light-border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    .report-table th {
+      background: var(--primary-green);
+      color: #ffffff;
+      padding: 7px 10px;
+      font-weight: 700;
+      text-align: right;
+      font-size: 11px;
+    }
+    .report-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #ede8df;
+      vertical-align: middle;
+    }
+    .report-table tr:nth-child(even) {
+      background: #faf8f5;
+    }
+    .report-table tr:last-child td {
+      border-bottom: none;
+    }
+    .badge-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+    .badge-green {
+      background: #e7f5ed;
+      color: #046A38;
+      border: 1px solid #b7dfc8;
+    }
+    .badge-gold {
+      background: #fbf5e6;
+      color: #795200;
+      border: 1px solid #e7cd8e;
+    }
+
+    .thanks-outro-box {
+      background: linear-gradient(to left, #fbf7ee, #f3ede2);
+      border: 2px solid var(--royal-gold);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0 18px 0;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+    .thanks-title {
+      font-family: 'Amiri', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--primary-green);
+      margin-bottom: 6px;
+    }
+    .thanks-text {
+      font-size: 12px;
+      line-height: 1.85;
+      color: var(--dark-slate);
+      margin-bottom: 8px;
+    }
+    .quran-ayah-quote {
+      font-family: 'Amiri', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #8c6a21;
+      margin-top: 4px;
+    }
+
+    .additional-notes-box {
+      background: #faf8f2;
+      border: 1.5px solid var(--gold-border);
+      border-right: 5px solid var(--primary-green);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .notes-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Amiri', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-green);
+      margin-bottom: 6px;
+    }
+    .notes-icon {
+      color: var(--royal-gold);
+      font-size: 15px;
+    }
+    .notes-body {
+      font-size: 11.5px;
+      line-height: 1.8;
+      color: var(--dark-slate);
+    }
+    .notes-paragraph {
+      margin-bottom: 4px;
+      text-align: justify;
+    }
+    .notes-paragraph:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== تعديل قسم الختم والتوقيع ===== */
+    .verification-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1.5px dashed var(--royal-gold);
+      page-break-inside: avoid;
+      text-align: center;
+    }
+    .seal-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .seal-img-wrapper {
+      width: 100px;
+      height: 100px;
+      flex-shrink: 0;
+    }
+    .seal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(4, 106, 56, 0.2));
+    }
+    .signature-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .sig-title {
+      font-size: 12px;
+      color: var(--muted-gray);
+      margin-bottom: 2px;
+      font-weight: 700;
+    }
+    .sig-name {
+      font-family: 'Amiri', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+
+    .document-footer {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 2px solid var(--royal-gold);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--muted-gray);
+      page-break-inside: avoid;
+    }
+    .footer-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-copyright {
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+    .footer-page-pill {
+      background: var(--gold-light);
+      padding: 2px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--gold-border);
+      font-weight: 700;
+      color: var(--dark-slate);
+    }
+
+    .footer-accounts-heading {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--royal-gold);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 2px;
+    }
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 6px;
+      background: #faf8f5;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #e7e2d6;
+      position: relative;
+      z-index: 50;
+      pointer-events: auto !important;
+    }
+    .footer-link-card {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #ded8cb;
+      color: var(--dark-slate);
+      text-decoration: none;
+      font-size: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer !important;
+      position: relative;
+      z-index: 55;
+      pointer-events: auto !important;
+    }
+    .footer-link-card:hover {
+      background: #eef7f2;
+      border-color: var(--primary-green);
+      color: var(--primary-green);
+      transform: translateY(-1px);
+    }
+    .link-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .link-icon {
+      font-size: 12px;
+      line-height: 1;
+    }
+    .link-label {
+      color: var(--primary-green);
+      font-weight: 700;
+    }
+    .link-text {
+      font-size: 9.5px;
+      color: var(--dark-slate);
+    }
+    .link-arrow {
+      color: var(--royal-gold);
+      font-size: 9px;
+      font-weight: bold;
+    }
+
+    .no-print-toolbar {
+      max-width: 210mm;
+      margin: 0 auto 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      border: 1.5px solid #dfd8c8;
+    }
+    .toolbar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-green);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .toolbar-btn:hover {
+      background: #03522b;
+    }
+    .toolbar-btn-secondary {
+      background: #f1ede4;
+      color: var(--dark-slate);
+      border: 1px solid #d5cebf;
+    }
+    .toolbar-btn-secondary:hover {
+      background: #e5ded2;
+    }
+    .toolbar-btn-whatsapp {
+      background: #25D366 !important;
+      color: #0c381e !important;
+      font-weight: 800 !important;
+      border: 1px solid #1eaa53 !important;
+    }
+    .toolbar-btn-whatsapp:hover {
+      background: #20ba59 !important;
+      color: #072212 !important;
+    }
+
+    @media screen and (max-width: 640px) {
+      body {
+        padding: 8px 4px !important;
+      }
+      .document-wrapper {
+        padding: 12px 8px !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+      }
+      .footer-links-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .report-table th, .report-table td {
+        padding: 6px 8px !important;
+        font-size: 11px !important;
+      }
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 14mm 13mm 14mm 13mm;
+      @bottom-center {
+        content: "صفحة " counter(page);
+        font-family: 'Noto Kufi Arabic', sans-serif;
+        font-size: 8.5pt;
+        color: #55625d;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .no-print-toolbar {
+        display: none !important;
+      }
+      .document-wrapper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+      }
+      .document-watermark {
+        position: fixed !important;
+        opacity: 0.045 !important;
+      }
+      .footer-links-grid {
+        background: transparent !important;
+        border: 1px solid #d5cebf !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+      .footer-link-card {
+        border: 1px solid #e0dacd !important;
+        box-shadow: none !important;
+        text-decoration: none !important;
+      }
+      .link-arrow {
+        display: none !important;
+      }
+      .report-main-banner,
+      .address-letter-box,
+      .kpi-grid,
+      .report-table-container,
+      .thanks-outro-box,
+      .verification-block,
+      .document-footer {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .section-title {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="no-print-toolbar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-weight: 800; color: #046A38; font-size: 13.5px;">📄 تقرير سير عمل المقرأة وطلب دعم تشغيلي</span>
+      <span style="font-size: 11px; color: #777;">(جاهز للطباعة المباشرة وحفظ الـ PDF)</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <button class="toolbar-btn toolbar-btn-whatsapp" onclick="shareReportViaWhatsApp()" title="إنشاء رابط مختصر ومشاركة التقرير عبر واتساب للداعمين">
+        💬 مشاركة التقرير عبر واتساب
+      </button>
+      <button class="toolbar-btn" onclick="window.print()">
+        🖨️ طباعة فورية / حفظ كـ PDF
+      </button>
+      <button class="toolbar-btn toolbar-btn-secondary" onclick="window.close()">
+        ✕ إغلاق
+      </button>
+    </div>
+  </div>
+
+  <div class="document-wrapper">
+    <div class="document-watermark"></div>
+
+    <div class="content-layer">
+      <div class="header-bismillah">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</div>
+
+      <!-- ترويسة المقرأة الرسمية (في المنتصف) -->
+      <header class="official-header">
+        <div class="header-right">
+          <img src="/brand/official-logo.png" alt="مقرأة رحاب القرآن الإلكترونية" class="header-logo" onerror="this.style.display='none'">
+          <div>
+            <h1 class="academy-name">مقرأة رحاب القرآن الإلكترونية</h1>
+            <span class="academy-subtext">المنهج القرآني المعتمد بالسند المتصل إلى رسول الله ﷺ</span>
+          </div>
+        </div>
+        <div class="header-left">
+          <span class="badge-official">تقرير إداري رسمي معتمد</span>
+          <div>التاريخ: ٦ جمادى الأولى ١٤٤٨ هـ</div>
+          <div>العام الأكاديمي: العام الأكاديمي 1447 هـ / 2026 م</div>
+        </div>
+      </header>
+
+      <div class="report-main-banner">
+        <div class="report-badge-top">
+          <span>🏛️ وثيقة موجهة لطلب الدعم والرعاية القرآنية</span>
+          <span>•</span>
+          <span>نسخة رسمية برقم توثيق: RQ-SUP-٥٢٦٨٣٠</span>
+        </div>
+        <h2 class="report-title-heading">
+          تقرير سير عمل المقرأة الشامل وطلب دعم تشغيلي
+        </h2>
+        <div class="report-target-meta">
+          <span>الموجه إلى: <b>جمعية البر والتقوى الخيرية</b></span>
+          <span>•</span>
+          <span>الغرض: <b>كفالة الحلقات القرآنية ورعاية حفاظ كتاب الله وتغطية النفقات التشغيلية للمقرأة</b></span>
+        </div>
+      </div>
+
+      <div class="address-letter-box">
+        <div class="address-to-line">
+          سعادة رئيس مجلس الإدارة المحترم – <span class="address-org-name">جمعية البر والتقوى الخيرية</span> الموقرين،
+        </div>
+        <div class="salutation">السلام عليكم ورحمة الله وبركاته، تحية طيبة مباركة من رحاب القرآن الكريم، وبعد:</div>
+        
+        <p class="letter-body-p">
+          يسر إدارة مقرأة رحاب القرآن الإلكترونية أن تضع بين أيديكم الكريمة هذا التقرير الشامل الموثق لسير العمل الأكاديمي والقرآني، متضمناً مؤشرات إقبال الطلاب، ونشاط الحلقات المباشرة، وجلسات التسميع بالسند المتصل، والدروس التجويدية المنجزة.
+        </p>
+        <p class="letter-body-p">
+          ونظراً للإقبال المتزايد من طلبة كتاب الله تعالى محلياً وعالمياً، ووجود قوائم انتظار تتطلب افتتاح حلقات إضافية وكفالة معلمين متفرغين مجازين؛ فإننا نرفع لسعادتكم هذا الطلب للمساهمة في <strong>الدعم التشغيلي للمقرأة</strong>، لتمكيننا من الاستمرار في تعليم كتاب الله وضبط تلاوته، ومشاركتكم الأجر العظيم في كل حرف يُتلى ويُحفظ بالسند المتصل إلى النبي ﷺ.
+        </p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">إجمالي الطلاب والدارسين</div>
+          <div class="kpi-value">١٨٥</div>
+          <div class="kpi-sub">مقيدون في الحلقات والمسمّعون</div>
+        </div>
+        <div class="kpi-card gold-border">
+          <div class="kpi-label">المقرئون والشيوخ بالسند</div>
+          <div class="kpi-value">١٢</div>
+          <div class="kpi-sub">معلمون ومعلمات مجازون</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">الحلقات القرآنية المقامة</div>
+          <div class="kpi-value">١٢</div>
+          <div class="kpi-sub">بنين وبنات وفصول متخصصة</div>
+        </div>
+        <div class="kpi-card gold-border">
+          <div class="kpi-label">جلسات التسميع المباشرة</div>
+          <div class="kpi-value">١٤٨٠</div>
+          <div class="kpi-sub">جلسة تسميع فردي ومجموعات</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">دروس علوم التجويد المقررة</div>
+          <div class="kpi-value">١٤</div>
+          <div class="kpi-sub">درساً مشروحاً بشواهد التحفة والجزرية</div>
+        </div>
+        <div class="kpi-card gold-border">
+          <div class="kpi-label">متوسط درجات الإتقان</div>
+          <div class="kpi-value">٩٦%</div>
+          <div class="kpi-sub">تقدير ممتاز مرتفع معتمد</div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span class="section-title-icon">📜</span>
+        <span>كوكبة المعلمين والمقرئين المعتمدين والروايات القرآنية المجازين بها:</span>
+      </div>
+      <div class="report-table-container">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">اسم الشيخ / المعلم</th>
+              <th style="width: 32%;">الرواية القرآنية المجاز بها بالسند</th>
+              <th style="width: 22%;">المسار والتخصص</th>
+              <th style="width: 18%;">الطلاب المقيدون</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>الشيخة أم أنس الزبيدي</strong></td>
+              <td><span class="badge-pill badge-gold">حفص عن عاصم من طريق الشاطبية</span></td>
+              <td><span class="badge-pill badge-green">إجازة بالسند المتصل</span></td>
+              <td><b>١٥ طالب</b></td>
+            </tr>
+            <tr>
+              <td><strong>الشيخ إبراهيم الوصابي</strong></td>
+              <td><span class="badge-pill badge-gold">ورش عن نافع من طريق الأزرق</span></td>
+              <td><span class="badge-pill badge-green">حفظ مكثف وتثبيت</span></td>
+              <td><b>١٧ طالب</b></td>
+            </tr>
+            <tr>
+              <td><strong>علي عزيزي</strong></td>
+              <td><span class="badge-pill badge-gold">قالون عن نافع المدني</span></td>
+              <td><span class="badge-pill badge-green">تصحيح تلاوة وأشبال</span></td>
+              <td><b>١٩ طالب</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-title">
+        <span class="section-title-icon">🎙️</span>
+        <span>إحصائيات مسارات الحفظ والمراجعة وجلسات التسميع المباشرة:</span>
+      </div>
+      <div style="background: #faf8f5; border: 1px solid var(--light-border); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 11.5px;">
+          <span>📖 إجمالي الصفحات والأجزاء المسمعة: <strong>٣٣٣٠ صفحة معتمدة</strong></span>
+          <span>🎯 متوسط درجات الضبط وأحكام التجويد: <strong>٩٦ / 100</strong></span>
+          <span>🏆 الحفظة المتميزون المكرمون أسبوعياً: <strong>٥ طلاب</strong></span>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span class="section-title-icon">👥</span>
+        <span>كوكبة من أسماء الطلاب ونشاط الحفظ والمراجعة وجلسات التسميع المباشرة:</span>
+      </div>
+      <div class="report-table-container">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">اسم الطالب / الدارس</th>
+              <th style="width: 25%;">الحلقة القرآنية</th>
+              <th style="width: 25%;">مسار الحفظ / المستوى</th>
+              <th style="width: 22%;">جلسات التسميع / النتيجة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>عبدالله محمد المنصوري</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الفجر لحفظ القرآن الكريم (الماهر بالقرآن)</span></td>
+              <td><span class="badge-pill badge-gold">حفظ مكثف وتثبيت • الجزء 10</span></td>
+              <td><b>١٤ جلسة (٩٥%)</b></td>
+            </tr>
+            <tr>
+              <td><strong>علي</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الإتقان والتحفيظ (الفجر - بنين)</span></td>
+              <td><span class="badge-pill badge-gold">مراجعة وتسميع يومي • الجزء 11</span></td>
+              <td><b>١٦ جلسة (٩٦%)</b></td>
+            </tr>
+            <tr>
+              <td><strong>علي محمد</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الإتقان والتحفيظ (الفجر - بنين)</span></td>
+              <td><span class="badge-pill badge-gold">إجازة بالسند المتصل • 1</span></td>
+              <td><b>١٨ جلسة (٩٧%)</b></td>
+            </tr>
+            <tr>
+              <td><strong>علي</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الفجر لحفظ القرآن الكريم (الماهر بالقرآن)</span></td>
+              <td><span class="badge-pill badge-gold">حفظ مكثف وتثبيت • الجزء 13</span></td>
+              <td><b>٢٠ جلسة (٩٨%)</b></td>
+            </tr>
+            <tr>
+              <td><strong>عبدالرحمن باجعفر</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الإتقان والتحفيظ (الفجر - بنين)</span></td>
+              <td><span class="badge-pill badge-gold">مراجعة وتسميع يومي • 18</span></td>
+              <td><b>٢٢ جلسة (٩٩%)</b></td>
+            </tr>
+            <tr>
+              <td><strong>علي محمد</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الإتقان والتحفيظ (الفجر - بنين)</span></td>
+              <td><span class="badge-pill badge-gold">إجازة بالسند المتصل • 1</span></td>
+              <td><b>٢٤ جلسة (٩٥%)</b></td>
+            </tr>
+            <tr>
+              <td><strong>فاطمة الزهراء الشامي</strong></td>
+              <td><span class="badge-pill badge-green">حلقة الفجر لحفظ القرآن الكريم (الماهر بالقرآن)</span></td>
+              <td><span class="badge-pill badge-gold">حفظ مكثف وتثبيت • 25</span></td>
+              <td><b>٢٦ جلسة (٩٦%)</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-title">
+        <span class="section-title-icon">💡</span>
+        <span>بنود ومجالات الدعم التشغيلي المطلوب من جمعية البر والتقوى الخيرية:</span>
+      </div>
+      <div class="report-table-container">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 36%;">بند الدعم المقترح</th>
+              <th style="width: 44%;">البيان والأثر التشغيلي</th>
+              <th style="width: 20%;">الأولوية</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>كفالة حلقات تحفيظ القرآن الكريم والمقرئين المجازين بالسند</strong></td>
+              <td>تغطية المكافآت الشهرية للمشايخ والمعلمات المجازين بالسند المتصل لرعاية 12 حلقة قرآنية مباشرة.</td>
+              <td><span class="badge-pill badge-green">عالية جداً</span></td>
+            </tr>
+            <tr>
+              <td><strong>تشغيل البنية السحابية والغرف الصوتية عالية النقاء (Google Meet / WebRTC)</strong></td>
+              <td>تحمل تكاليف الخوادم وقاعات التسميع الافتراضية المباشرة وحفظ تسجيلات التسميع والأرشفة السحابية.</td>
+              <td><span class="badge-pill badge-green">عالية جداً</span></td>
+            </tr>
+            <tr>
+              <td><strong>جوائز الحفظة والمتميزين وتكاليف إصدار شهادات الإجازة بالسند</strong></td>
+              <td>تحفيز الطلاب المتفوقين في الحفظ والمراجعة وطباعة شهادات الإجازة القرآنية المعتمدة بالختم الرسمي.</td>
+              <td><span class="badge-pill badge-gold">عالية</span></td>
+            </tr>
+            <tr>
+              <td><strong>تطوير منهج علوم التجويد التفاعلي والكتب الإلكترونية المقررة</strong></td>
+              <td>إنتاج شروحات مرئية وصوتية لشواهد تحفة الأطفال والجزرية مع اختبارات قياس الأثر التجويدي.</td>
+              <td><span class="badge-pill badge-gold">متوسطة</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="additional-notes-box">
+        <div class="notes-header">
+          <span class="notes-icon">📝</span>
+          <span class="notes-title">ملاحظات وتوصيات إضافية من إدارة المقرأة:</span>
+        </div>
+        <div class="notes-body">
+          <p class="notes-paragraph">❖ نوصي بتخصيص الدعم لكفالة حلقات الإسناد العالي وتأمين خوادم الغرف الصوتية السحابية لاستيعاب الطلاب الجدد.</p>
+        </div>
+      </div>
+
+      <div class="thanks-outro-box">
+        <div class="thanks-title">شكر وعرفان وامتنان</div>
+        <p class="thanks-text">
+          وإذ ترفع إدارة مقرأة رحاب القرآن الإلكترونية هذا التقرير المبارك، فإنها تتقدم بأسمى آيات الشكر والامتنان وجزيل التقدير إلى <strong>جمعية البر والتقوى الخيرية</strong> ومجلس إدارتها الكرام على ما تولونه من عناية ورعاية ودعم لكتاب الله تعالى وحفظته. سائلين المولى تبارك وتعالى أن يجعل هذا البذل صدقة جارية ونوراً وبركة في موازين حسناتكم.
+        </p>
+        <div class="quran-ayah-quote">
+          ﴿ وَمَا تُقَدِّمُوا لِأَنفُسِكُم مِّنْ خَيْرٍ تَجِدُوهُ عِندَ اللَّهِ هُوَ خَيْرًا وَأَعْظَمَ أَجْرًا ﴾
+        </div>
+      </div>
+
+      <!-- التوثيق والختم والتوقيع (في المنتصف وبدون نصوص إضافية) -->
+      <div class="verification-block">
+        <div class="seal-area">
+          <div class="seal-img-wrapper">
+            <img src="/brand/official-seal.png" alt="ختم المقرأة المعتمد" class="seal-img" onerror="this.style.display='none'">
+          </div>
+        </div>
+
+        <div class="signature-area">
+          <span class="sig-title">المشرف العام على المقرأة</span>
+          <span class="sig-name">د. علي عزيزي</span>
+        </div>
+      </div>
+
+      <footer class="document-footer">
+        <div class="footer-top-row">
+          <span class="footer-copyright">❖ © مقرأة رحاب القرآن الإلكترونية – جميع الحقوق محفوظة</span>
+          <span class="footer-page-pill">وثيقة A4 معتمدة • صفحة ١ من ١</span>
+        </div>
+
+        <div class="footer-accounts-heading">
+          <span>🔗</span>
+          <span>حسابات وقنوات التواصل الرسمية لمقرأة رحاب القرآن (روابط قابلة للضغط المباشر):</span>
+        </div>
+
+        <div class="footer-links-grid">
+          <a href="https://wa.me/967714371599" target="_blank" rel="noopener noreferrer" class="footer-link-card" title="محادثة واتساب مباشرة" onclick="window.open(this.href, '_blank'); return true;">
+            <span class="link-content">
+              <span class="link-icon">💬</span>
+              <span class="link-label">واتساب المقرأة:</span>
+              <span class="link-text" dir="ltr">0967714371599</span>
+            </span>
+            <span class="link-arrow">↗</span>
+          </a>
+
+          <a href="https://whatsapp.com/channel/0029Vb4RehabQuran" target="_blank" rel="noopener noreferrer" class="footer-link-card" title="قناة الواتساب الرسمية" onclick="window.open(this.href, '_blank'); return true;">
+            <span class="link-content">
+              <span class="link-icon">📢</span>
+              <span class="link-label">قناة الواتساب:</span>
+              <span class="link-text">رحاب القرآن الرسمية</span>
+            </span>
+            <span class="link-arrow">↗</span>
+          </a>
+
+          <a href="tel:0967714371599" class="footer-link-card" title="اتصال هاتفي">
+            <span class="link-content">
+              <span class="link-icon">📞</span>
+              <span class="link-label">هاتف المقرأة:</span>
+              <span class="link-text" dir="ltr">0967714371599</span>
+            </span>
+            <span class="link-arrow">☎</span>
+          </a>
+
+          <a href="https://t.me/rehabpa" target="_blank" rel="noopener noreferrer" class="footer-link-card" title="قناة تيلجرام" onclick="window.open(this.href, '_blank'); return true;">
+            <span class="link-content">
+              <span class="link-icon">✈️</span>
+              <span class="link-label">تيلجرام:</span>
+              <span class="link-text" dir="ltr">t.me/rehabpa</span>
+            </span>
+            <span class="link-arrow">↗</span>
+          </a>
+
+          <a href="https://www.facebook.com/profile.php?id=61594338165497" target="_blank" rel="noopener noreferrer" class="footer-link-card" title="صفحة فيسبوك الرسمية" onclick="window.open(this.href, '_blank'); return true;">
+            <span class="link-content">
+              <span class="link-icon">🌐</span>
+              <span class="link-label">فيسبوك:</span>
+              <span class="link-text">مقرأة رحاب القرآن</span>
+            </span>
+            <span class="link-arrow">↗</span>
+          </a>
+
+          <a href="https://www.instagram.com/rehabquran47884517?stkn=cmwzY2Jtd2Rsbnc4" target="_blank" rel="noopener noreferrer" class="footer-link-card" title="انستغرام المقرأة" onclick="window.open(this.href, '_blank'); return true;">
+            <span class="link-content">
+              <span class="link-icon">📸</span>
+              <span class="link-label">انستغرام:</span>
+              <span class="link-text" dir="ltr">@rehabquran</span>
+            </span>
+            <span class="link-arrow">↗</span>
+          </a>
+
+          <a href="mailto:aliazize101@gmail.com" class="footer-link-card" title="البريد الإلكتروني">
+            <span class="link-content">
+              <span class="link-icon">✉️</span>
+              <span class="link-label">البريد الرسمي:</span>
+              <span class="link-text" dir="ltr">aliazize101@gmail.com</span>
+            </span>
+            <span class="link-arrow">✉</span>
+          </a>
+
+          <a href="https://ais-pre-apk4ttet5tovekgnjmiw6w-308724410396.europe-west2.run.app" target="_blank" rel="noopener noreferrer" class="footer-link-card" title="موقع المقرأة" onclick="window.open(this.href, '_blank'); return true;">
+            <span class="link-content">
+              <span class="link-icon">🏛️</span>
+              <span class="link-label">بوابة المقرأة:</span>
+              <span class="link-text">rehab-quran.com</span>
+            </span>
+            <span class="link-arrow">↗</span>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function shareReportViaWhatsApp() {
+      try {
+        var baseOrigin = window.location.origin;
+        var shareUrl = baseOrigin + "/report/support?org=" + encodeURIComponent("جمعية البر والتقوى الخيرية") + "&to=" + encodeURIComponent("سعادة رئيس مجلس الإدارة المحترم");
+        
+        var msg = "السلام عليكم ورحمة الله وبركاته،\n" +
+          "تحية طيبة مباركة من مقرأة رحاب القرآن الكريم ❖\n\n" +
+          "سعادة رئيس مجلس الإدارة المحترم – جمعية البر والتقوى الخيرية الموقرين،\n" +
+          "يسر إدارة المقرأة أن تضع بين أيديكم الكريمة:\n" +
+          "📄 *تقرير سير عمل المقرأة الشامل وطلب دعم تشغيلي*\n" +
+          "الموثق بالهوية الرسمية والختم المعتمد لعام 2026.\n\n" +
+          "🔗 *رابط مطالعة وتحميل التقرير المباشر:* \n" + shareUrl + "\n\n" +
+          "نسأل الله تعالى أن يبارك في جهودكم ويجعل هذا البذل صدقة جارية ونوراً وبركة في موازين حسناتكم.";
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareUrl).then(function() {
+            var btn = document.querySelector('.toolbar-btn-whatsapp');
+            if (btn) {
+              var old = btn.innerHTML;
+              btn.innerHTML = '✓ تم نسخ الرابط وجاري فتح واتساب...';
+              setTimeout(function() { btn.innerHTML = old; }, 3000);
+            }
+          }).catch(function() {});
+        }
+
+        var waUrl = "https://wa.me/?text=" + encodeURIComponent(msg);
+        window.open(waUrl, '_blank');
+      } catch (err) {
+        console.error("WhatsApp share failed:", err);
+      }
+    }
+
+    window.addEventListener('load', function() {
+      if (window.location.search.includes('print=true')) {
+        setTimeout(function() {
+          window.print();
+        }, 400);
+      }
+    });
+  </script>
+</body>
+</html>

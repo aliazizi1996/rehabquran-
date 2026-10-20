@@ -1,0 +1,807 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ==========================================
+    // 0. Helper Functions for RBAC & Security
+    // ==========================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function getUserData(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data;
+    }
+
+    function getUserRole() {
+      return request.auth.token.role != null ? request.auth.token.role : 
+             (exists(/databases/$(database)/documents/users/$(request.auth.uid)) ? 
+              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role : 'guest');
+    }
+
+    function isMasterAdmin() {
+      return request.auth != null && 
+             request.auth.token.email != null && 
+             (request.auth.token.email.lower() == 'aliazize101@gmail.com' || 
+              request.auth.token.email.lower() == 'admin@rehab-quran.com');
+    }
+
+    function isUserActive() {
+      return isMasterAdmin() || 
+             (request.auth.token.isActive != false && 
+              (!exists(/databases/$(database)/documents/users/$(request.auth.uid)) || 
+               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isActive != false));
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+             (isMasterAdmin() ||
+              (isUserActive() && (
+                request.auth.token.role == 'system_admin' || 
+                request.auth.token.role == 'admin' || 
+                request.auth.token.admin == true || 
+                getUserRole() == 'system_admin' ||
+                getUserRole() == 'admin'
+              )));
+    }
+
+    function isSupervisor() {
+      return isAuthenticated() && 
+             (isMasterAdmin() || 
+              isAdmin() || 
+              (isUserActive() && (
+                request.auth.token.role == 'academic_supervisor' || 
+                request.auth.token.role == 'supervisor' || 
+                getUserRole() == 'academic_supervisor' ||
+                getUserRole() == 'supervisor'
+              )));
+    }
+
+    function isTeacher() {
+      return isAuthenticated() && isUserActive() && 
+             (isSupervisor() || 
+              request.auth.token.role == 'teacher' || 
+              getUserRole() == 'teacher');
+    }
+
+    function isQualityAuditor() {
+      return isAuthenticated() && isUserActive() && 
+             (isSupervisor() || 
+              request.auth.token.role == 'quality_auditor' || 
+              getUserRole() == 'quality_auditor');
+    }
+
+    function isParent() {
+      return isAuthenticated() && isUserActive() && 
+             (request.auth.token.role == 'parent' || 
+              getUserRole() == 'parent');
+    }
+
+    function isParentOfStudent(studentId) {
+      return isParent() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             (studentId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.childStudentIds);
+    }
+
+    function isTeacherOfStudent(studentData) {
+      return isTeacher() && 
+             (request.auth.uid == studentData.teacherId || 
+              (studentData.assignedHalqaId != null && 
+               exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+               studentData.assignedHalqaId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.assignedHalqaIds));
+    }
+
+    function notModifyingRoleOrStatus() {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isActive', 'customClaims']);
+    }
+
+    // ==========================================
+    // 1. Users Collection (/users/{userId})
+    // ==========================================
+    match /users/{userId} {
+      // الطالب أو المستخدم يقرأ بياناته الخاصة دائماً، وكذلك المشرف الرئيسي والإدارة
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId || 
+        isMasterAdmin() || 
+        (isUserActive() && (
+          isSupervisor() || 
+          isQualityAuditor() ||
+          (isParent() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && (userId in getUserData(request.auth.uid).childStudentIds))
+        ))
+      );
+
+      // Self-registration for student, or Master Admin / Admin
+      allow create: if isAuthenticated() && (
+        isMasterAdmin() ||
+        isAdmin() || (
+          isOwner(userId) &&
+          request.resource.data.id == userId &&
+          !request.resource.data.keys().hasAny(['customClaims', 'admin', 'supervisor'])
+        )
+      );
+
+      // التحديث: أي مستخدم عادي ممنوع من تعديل صلاحياته أو تعطيل حسابه بنفسه
+      allow update: if isAuthenticated() && (
+        isMasterAdmin() ||
+        isAdmin() || 
+        (isSupervisor() && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'customClaims'])) ||
+        (
+          isOwner(userId) && 
+          notModifyingRoleOrStatus()
+        )
+      );
+
+      // الحذف مقتصر على مدير النظام
+      allow delete: if isMasterAdmin() || isAdmin();
+    }
+
+    // ==========================================
+    // 2. Students Collection (/students/{studentId})
+    // ==========================================
+    match /students/{studentId} {
+      // منع الطالب من قراءة طالب آخر، والمعلم فقط لطلابه، وولي الأمر لأبنائه فقط
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == studentId || 
+        request.auth.uid == resource.data.userId || 
+        (resource.data.parentUserId != null && request.auth.uid == resource.data.parentUserId) ||
+        isParentOfStudent(studentId) || 
+        isTeacherOfStudent(resource.data)
+      );
+
+      allow create: if isAuthenticated() && (
+        request.auth.uid == studentId || 
+        request.auth.uid == request.resource.data.userId || 
+        isSupervisor()
+      );
+
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        (isTeacherOfStudent(resource.data) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['teacherId', 'teacherName', 'assignedHalqaId', 'assignedHalqaTitle', 'academicId'])) || 
+        (request.auth.uid == resource.data.userId && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['academicId', 'teacherName', 'teacherId', 'assignedHalqaId', 'assignedHalqaTitle']))
+      );
+
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 3. Audio Submissions (/audio_submissions/{submissionId})
+    // ==========================================
+    match /audio_submissions/{submissionId} {
+      // منع أي مستخدم من قراءة تسجيلات خاصة بغيره
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId || 
+        request.auth.uid == resource.data.teacherId || 
+        (resource.data.parentUserId != null && request.auth.uid == resource.data.parentUserId) ||
+        isParentOfStudent(resource.data.studentId)
+      );
+
+      // تسجيل التسميع
+      allow create: if isAuthenticated() && isUserActive() && (
+        request.auth.uid == request.resource.data.studentId || 
+        isTeacher()
+      );
+
+      // تقييم التسميع
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        request.auth.uid == resource.data.teacherId || 
+        request.auth.uid == resource.data.studentId
+      );
+
+      allow delete: if isSupervisor() || (request.auth.uid == resource.data.studentId && resource.data.status == 'pending');
+    }
+
+    // ==========================================
+    // 4. Student Lesson Progress (/student_lesson_progress/{progressId})
+    // ==========================================
+    match /student_lesson_progress/{progressId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId || 
+        isParentOfStudent(resource.data.studentId) ||
+        isTeacher()
+      );
+
+      allow create, update: if isAuthenticated() && isUserActive() && (
+        request.auth.uid == request.resource.data.studentId || 
+        isTeacher() || 
+        isSupervisor()
+      );
+
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 5. Teachers & Halqas
+    // ==========================================
+    match /teachers/{teacherId} {
+      allow read: if isAuthenticated() && (isUserActive() || isSupervisor() || request.auth.uid == teacherId);
+      allow create: if isAuthenticated() && (
+        isSupervisor() || 
+        request.auth.uid == teacherId || 
+        (request.resource.data.userId != null && request.auth.uid == request.resource.data.userId)
+      );
+      allow update, delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // Public Teachers Collection (/public_teachers/{teacherId})
+    // ==========================================
+    match /public_teachers/{teacherId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /attendance/{attendanceId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isTeacher() || 
+        request.auth.uid == resource.data.studentId || 
+        isParentOfStudent(resource.data.studentId)
+      );
+      allow create, update: if isTeacher() || isSupervisor();
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 6. Security Logs (/security_logs/{logId})
+    // ==========================================
+    match /security_logs/{logId} {
+      // فقط مدير النظام والمشرف الأكاديمي يقرأ سجلات الأمان
+      allow read: if isSupervisor();
+      // يمكن للمستخدم تسجيل نشاطه الأمني
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // لا يمكن التلاعب بالسجلات الأمنية إطلاقاً
+    }
+
+    // ==========================================
+    // 7. Academic Plans & Curriculum (/plans/{planId})
+    // ==========================================
+    
+    // ==========================================
+    // 7.1 Tasks & Quran Goals (/tasks/{taskId})
+    // ==========================================
+    match /tasks/{taskId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId ||
+        request.auth.uid == resource.data.teacherId ||
+        (resource.data.studentId != null && isParentOfStudent(resource.data.studentId))
+      );
+      allow create: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        isTeacher() ||
+        request.auth.uid == request.resource.data.studentId ||
+        request.auth.uid == request.resource.data.teacherId
+      );
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        isTeacher() ||
+        request.auth.uid == resource.data.studentId ||
+        request.auth.uid == resource.data.teacherId
+      );
+      allow delete: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        isTeacher() ||
+        request.auth.uid == resource.data.studentId ||
+        request.auth.uid == resource.data.teacherId
+      );
+    }
+
+    // ==========================================
+    // 7.2 Schedules & Interactive Sessions (/schedules/{scheduleId})
+    // ==========================================
+    match /schedules/{scheduleId} {
+      allow read: if isAuthenticated() && isUserActive();
+      allow create, update, delete: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || isTeacher()
+      );
+    }
+
+    // ==========================================
+    // 7.3 Lessons & Class Sessions (/lessons/{lessonId})
+    // ==========================================
+    match /lessons/{lessonId} {
+      // الطالب يقرأ فقط الدروس التابعة لحلقته أو قسمه أو الدروس المفتوحة
+      // المعلم يقرأ الدروس التابعة له أو لحلقاته المسندة
+      // المشرف والإدارة لهم صلاحية القراءة الشاملة
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        (isTeacher() && (
+          request.auth.uid == resource.data.teacherId ||
+          (resource.data.halqaId != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && resource.data.halqaId in getUserData(request.auth.uid).assignedHalqaIds) ||
+          resource.data.teacherId == null
+        )) ||
+        (
+          resource.data.studentId == request.auth.uid ||
+          (resource.data.halqaId != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && resource.data.halqaId == getUserData(request.auth.uid).assignedHalqaId) ||
+          resource.data.isPublic == true ||
+          resource.data.halqaId == null
+        )
+      );
+
+      // المعلم ينشئ أو يعدل فقط ما يخص حلقاته المسندة أو معرفه، والمشرف له الصلاحية الكاملة
+      allow create: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        (isTeacher() && (
+          request.resource.data.teacherId == request.auth.uid ||
+          request.resource.data.teacherId == null
+        ))
+      );
+
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        (isTeacher() && (
+          resource.data.teacherId == request.auth.uid ||
+          (resource.data.halqaId != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && resource.data.halqaId in getUserData(request.auth.uid).assignedHalqaIds)
+        ))
+      );
+
+      allow delete: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        (isTeacher() && resource.data.teacherId == request.auth.uid)
+      );
+    }
+
+    // ==========================================
+    // 7.4 Recitations Log & Audio Sessions (/recitations/{recitationId})
+    // ==========================================
+    match /recitations/{recitationId} {
+      // الطالب يقرأ فقط تلاواته الخاصة وتسميعه، والمعلم لطلابه المسندين إليه، والمشرف للجميع
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId ||
+        request.auth.uid == resource.data.userId ||
+        isParentOfStudent(resource.data.studentId) ||
+        (isTeacher() && (
+          request.auth.uid == resource.data.teacherId ||
+          (resource.data.halqaId != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && resource.data.halqaId in getUserData(request.auth.uid).assignedHalqaIds) ||
+          isTeacherOfStudent(resource.data)
+        ))
+      );
+
+      // الإنشاء: الطالب لرفع تلاوته، المعلم لطلابه، المشرف
+      allow create: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        (isTeacher() && (
+          request.resource.data.teacherId == request.auth.uid ||
+          request.resource.data.teacherId == null
+        )) ||
+        (
+          request.auth.uid == request.resource.data.studentId ||
+          request.auth.uid == request.resource.data.userId
+        )
+      );
+
+      // التعديل: المعلم لتقييم تلاوة طالبه ورصد الدرجة والملاحظات، المشرف، أو الطالب لتحديث ملف الصوت قبل التقييم
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        (isTeacher() && (
+          resource.data.teacherId == request.auth.uid ||
+          (resource.data.halqaId != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && resource.data.halqaId in getUserData(request.auth.uid).assignedHalqaIds)
+        )) ||
+        (request.auth.uid == resource.data.studentId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['audioUrl', 'notes', 'studentSubmissionAt']))
+      );
+
+      // الحذف: مقتصر على المشرف والمعلم صاحب التقييم
+      allow delete: if isAuthenticated() && isUserActive() && (
+        isSupervisor() ||
+        (isTeacher() && resource.data.teacherId == request.auth.uid)
+      );
+    }
+
+    // ==========================================
+    // 7.5 Academic Plans & Recitations
+    // ==========================================
+    match /academic_plans/{planId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId || 
+        request.auth.uid == resource.data.teacherId ||
+        isParentOfStudent(resource.data.studentId)
+      );
+      allow create, update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || isTeacher() || request.auth.uid == request.resource.data.studentId
+      );
+      allow delete: if isSupervisor();
+    }
+
+    match /academic_recitations/{recId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId ||
+        isParentOfStudent(resource.data.studentId) ||
+        (isTeacher() && request.auth.uid == resource.data.teacherId)
+      );
+      allow create: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || isTeacher() || request.auth.uid == request.resource.data.studentId
+      );
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || (isTeacher() && resource.data.teacherId == request.auth.uid)
+      );
+      allow delete: if isSupervisor();
+    }
+
+    match /plans/{planId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        request.auth.uid == resource.data.studentId || 
+        request.auth.uid == resource.data.teacherId ||
+        isParentOfStudent(resource.data.studentId)
+      );
+      allow create, update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || isTeacher() || request.auth.uid == request.resource.data.studentId
+      );
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 8. Assignments & Homework (/assignments/{assignmentId})
+    // ==========================================
+    match /assignments/{assignmentId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        isTeacher() ||
+        request.auth.uid == resource.data.studentId || 
+        isParentOfStudent(resource.data.studentId)
+      );
+      allow create, update: if isAuthenticated() && isUserActive() && (
+        isTeacher() || isSupervisor() || request.auth.uid == request.resource.data.studentId
+      );
+      allow delete: if isSupervisor() || isTeacher();
+    }
+
+    // ==========================================
+    // 9. Evaluations & Recitation Assessments (/evaluations/{evalId})
+    // ==========================================
+    match /evaluations/{evalId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        isQualityAuditor() ||
+        isTeacher() ||
+        request.auth.uid == resource.data.studentId || 
+        isParentOfStudent(resource.data.studentId)
+      );
+      allow create, update: if isAuthenticated() && isUserActive() && (
+        isTeacher() || isSupervisor()
+      );
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 10. Certificates (/certificates/{certId})
+    // ==========================================
+    match /certificates/{certId} {
+      allow read: if true; // يمكن التحقق من الشهادات علنياً بالرقم التسلسلي
+      allow create, update, delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 11. Messages & Communication (/messages/{msgId})
+    // ==========================================
+    match /messages/{msgId} {
+      // السماح بالقراءة لطرفي المحادثة (المرسل والمستقبل) أو المشرف العام
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        request.auth.uid == resource.data.senderId || 
+        request.auth.uid == resource.data.recipientId
+      );
+      
+      // السماح بالإرسال بشرط:
+      // 1. المرسل هو المستخدم المصادق نفسه
+      // 2. منع تخزين أي كلمات مرور أو مفاتيح حساسة في قاعدة البيانات
+      // 3. الطالب يتواصل مع معلمه المعيّن أو المشرف، والمعلم مع طلابه
+      allow create: if isAuthenticated() && isUserActive() && 
+        request.auth.uid == request.resource.data.senderId &&
+        !request.resource.data.keys().hasAny(['password', 'passwordHash', 'token', 'authKey']) &&
+        (
+          isSupervisor() ||
+          (getUserRole() == 'student' && (
+            request.resource.data.recipientRole in ['teacher', 'supervisor', 'admin', 'academic_supervisor'] ||
+            request.resource.data.recipientId == getUserData(request.auth.uid).teacherId ||
+            request.resource.data.recipientId == getUserData(request.auth.uid).assignedTeacherId ||
+            request.resource.data.recipientId != null
+          )) ||
+          (getUserRole() == 'teacher' && (
+            request.resource.data.recipientRole in ['student', 'supervisor', 'admin'] ||
+            request.resource.data.recipientId != null
+          )) ||
+          (request.resource.data.recipientId != null && request.resource.data.recipientId != '')
+        );
+
+      // السماح بتحديث حالة القراءة فقط من قبل المستقبل دون تعديل نص الرسالة
+      allow update: if isAuthenticated() && isUserActive() && (
+        request.auth.uid == resource.data.recipientId
+      ) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['senderId', 'recipientId', 'text', 'message', 'createdAt']);
+
+      // الحذف للمشرف أو لمرسل الرسالة نفسه
+      allow delete: if isSupervisor() || (request.auth.uid == resource.data.senderId);
+    }
+
+    // ==========================================
+    // 12. Notifications (/notifications/{notifId})
+    // ==========================================
+    match /notifications/{notifId} {
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || request.auth.uid == resource.data.userId
+      );
+      allow create: if isAuthenticated() && (isSupervisor() || isTeacher() || request.auth.uid == request.resource.data.userId);
+      allow update: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow delete: if isAuthenticated() && (isSupervisor() || request.auth.uid == resource.data.userId);
+    }
+
+    // ==========================================
+    // 13. Halqas & Circles (/halqas/{halqaId})
+    // ==========================================
+    match /halqas/{halqaId} {
+      allow read: if true; // أسماء الحلقات ومواعيدها معلنة
+      allow create, delete: if isSupervisor();
+      // السماح بالتعديل للمشرف العام، أو لمعلم الحلقة لتحديث رابط البث المباشر والموعد فقط
+      allow update: if isSupervisor() || (
+        isAuthenticated() && isUserActive() && isTeacher() && (
+          resource.data.teacherId == request.auth.uid ||
+          (resource.data.teacherName != null && getUserData(request.auth.uid).name == resource.data.teacherName)
+        ) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['googleMeetUrl', 'timeSlot', 'updatedAt', 'lastMeetingUpdate'])
+      );
+    }
+
+    // ==========================================
+    // 13.1 Halqa Announcements (/halqa_announcements/{announcementId})
+    // ==========================================
+    match /halqa_announcements/{announcementId} {
+      // قراءة الإعلانات متاحة لجميع المستخدمين المسجلين في المقرأة
+      allow read: if isAuthenticated() && isUserActive();
+      // نشر الإعلانات للمشرف العام أو لمعلم الحلقة نفسه
+      allow create: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        (isTeacher() && request.auth.uid == request.resource.data.teacherId)
+      );
+      allow update, delete: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        (isTeacher() && request.auth.uid == resource.data.teacherId)
+      );
+    }
+
+    // ==========================================
+    // 13.2 Live WebRTC Halqa Sessions (/live_halqa_sessions/{sessionId})
+    // ==========================================
+    match /live_halqa_sessions/{sessionId} {
+      allow read: if isAuthenticated() && isUserActive();
+      allow create, update: if isAuthenticated() && isUserActive();
+      allow delete: if isAuthenticated() && isUserActive() && (isSupervisor() || isTeacher());
+
+      match /{subcollection}/{docId} {
+        allow read, write: if isAuthenticated() && isUserActive();
+      }
+    }
+
+    // ==========================================
+    // 14. Complaints & Reports (/complaints/{complaintId})
+    // ==========================================
+    match /complaints/{complaintId} {
+      allow read, update, delete: if isSupervisor();
+      allow create: if isSupervisor() || (
+        request.resource.data.keys().hasOnly([
+          'reporterName', 'reporterPhone', 'reporterEmail', 'reporterRole',
+          'category', 'subject', 'description', 'status', 'createdAt', 'updatedAt'
+        ]) &&
+        request.resource.data.reporterRole == 'public_visitor' &&
+        request.resource.data.status == 'open' &&
+        request.resource.data.description is string &&
+        request.resource.data.description.size() <= 2000 &&
+        request.resource.data.reporterName is string &&
+        request.resource.data.reporterName.size() <= 100
+      );
+    }
+
+    // ==========================================
+    // 15. Audit Logs (/audit_logs/{logId})
+    // ==========================================
+    match /audit_logs/{logId} {
+      allow read: if isSupervisor();
+      allow create: if isAuthenticated();
+      allow update, delete: if false;
+    }
+
+    // ==========================================
+    // 16. General & Public Content
+    // ==========================================
+    match /financialContributions/{contributionId} {
+      allow read: if isSupervisor() || (isAuthenticated() && request.auth.uid == resource.data.donorUserId);
+      allow create: if true;
+      allow update, delete: if isSupervisor();
+    }
+
+    match /student_applications/{applicationId} {
+      allow read: if isSupervisor() || (isAuthenticated() && request.auth.uid == resource.data.userId);
+      allow create: if true;
+      allow update, delete: if isSupervisor();
+    }
+
+    match /curriculum_lessons/{lessonId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /curriculum_settings/{settingId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /pdf_settings/{settingId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /site_content/{contentId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /system_settings/{settingId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    match /app_settings/{settingId} {
+      allow read: if isAuthenticated() && isUserActive();
+      allow write: if isSupervisor();
+    }
+
+    // ==========================================
+    // 17. System Connection Tests (/systemTests/{docId})
+    // ==========================================
+    match /systemTests/{docId} {
+      allow read, write, delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 19. Scientific Mutun (/scientific_mutun/{matnId})
+    // ==========================================
+    match /scientific_mutun/{matnId} {
+      allow read: if true;
+      allow write: if isSupervisor();
+    }
+
+    // ==========================================
+    // 20. Student Matn Progress (/matn_student_progress/{progressId})
+    // ==========================================
+    match /matn_student_progress/{progressId} {
+      // الطالب يقرأ سجله الخاص، والمعلم والمشرف يقرأون سجلات الطلاب
+      allow read: if isAuthenticated() && (
+        isSupervisor() || 
+        isTeacher() || 
+        resource.data.studentId == request.auth.uid
+      );
+
+      // إنشاء السجل الأولي
+      allow create: if isAuthenticated() && (
+        isSupervisor() || 
+        (request.resource.data.studentId == request.auth.uid &&
+         request.resource.data.nextGroupUnlocked == false)
+      );
+
+      // التحديث: المشرف والمعلم بكامل الصلاحيات، الطالب ممنوع من اعتماد نفسه أو فتح المجموعة
+      allow update: if isAuthenticated() && (
+        isSupervisor() || 
+        isTeacher() || 
+        (
+          request.auth.uid == resource.data.studentId &&
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+            'isTeacherApproved', 'nextGroupUnlocked', 'masteryLevel', 
+            'teacherApprovalDate', 'teacherNotes'
+          ])
+        )
+      );
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 21. Matn Recitation Submissions (/matn_recitation_submissions/{submissionId})
+    // ==========================================
+    match /matn_recitation_submissions/{submissionId} {
+      allow read: if isAuthenticated() && (
+        isSupervisor() || 
+        isTeacher() || 
+        resource.data.studentId == request.auth.uid
+      );
+      // الطالب يرسل تسميعه الخاص بحالة معلقة pending فقط
+      allow create: if isAuthenticated() && (
+        isSupervisor() || 
+        (request.resource.data.studentId == request.auth.uid && 
+         request.resource.data.status == 'pending')
+      );
+      // اعتماد التقييم والملاحظات محصور بالمعلم والمشرف
+      allow update: if isAuthenticated() && (isSupervisor() || isTeacher());
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 22. Weekly Mutun Exams (/matn_weekly_exams/{examId})
+    // ==========================================
+    match /matn_weekly_exams/{examId} {
+      allow read: if isAuthenticated();
+      allow write: if isSupervisor() || isTeacher();
+    }
+
+    // ==========================================
+    // 23. Exam Results (/matn_exam_results/{resultId})
+    // ==========================================
+    match /matn_exam_results/{resultId} {
+      allow read: if isAuthenticated() && (
+        isSupervisor() || 
+        isTeacher() || 
+        resource.data.studentId == request.auth.uid
+      );
+      allow create: if isAuthenticated() && (
+        isSupervisor() || 
+        request.resource.data.studentId == request.auth.uid
+      );
+      allow update: if isAuthenticated() && (isSupervisor() || isTeacher());
+      allow delete: if isSupervisor();
+    }
+
+    // ==========================================
+    // 18. Monthly Student Contributions (/monthly_contributions/{contributionId})
+    // ==========================================
+    match /monthly_contributions/{contributionId} {
+      // الطالب يقرأ مساهماته فقط، والإدارة تقرأ سجلات الجميع
+      allow read: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        request.auth.uid == resource.data.studentId
+      );
+
+      // إنشاء السجل: الطالب لنفسه (حالة due أو pending_confirmation فقط، ممنوع paid) أو الإدارة
+      allow create: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        (
+          request.auth.uid == request.resource.data.studentId &&
+          request.resource.data.status in ['due', 'pending_confirmation']
+        )
+      );
+
+      // التحديث:
+      // - الإدارة: كامل الصلاحية (بما فيها تأكيد السداد paid)
+      // - الطالب: مسموح له فقط الإبلاغ عن السداد (تغيير الحالة إلى pending_confirmation، وتزويد الحقول الخاصة بالسداد)
+      //   وممنوع تماماً على الطالب تعيين status == 'paid'
+      allow update: if isAuthenticated() && isUserActive() && (
+        isSupervisor() || 
+        (
+          request.auth.uid == resource.data.studentId &&
+          request.resource.data.studentId == resource.data.studentId &&
+          request.resource.data.status == 'pending_confirmation' &&
+          resource.data.status != 'paid' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'status', 'paymentMethod', 'transferReference', 'studentNotes', 
+            'paymentReportedAt', 'updatedAt'
+          ])
+        )
+      );
+
+      // الحذف مقتصر على المشرف والإدارة
+      allow delete: if isSupervisor();
+    }
+  }
+}

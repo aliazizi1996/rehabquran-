@@ -1,0 +1,75 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isMasterAdmin() {
+      return request.auth != null && 
+             request.auth.token.email != null && 
+             (request.auth.token.email.lower() == 'aliazize101@gmail.com' || 
+              request.auth.token.email.lower() == 'admin@rehab-quran.com');
+    }
+
+    function isSupervisor() {
+      return isAuthenticated() && (
+        isMasterAdmin() ||
+        request.auth.token.role == 'academic_supervisor' ||
+        request.auth.token.role == 'supervisor' ||
+        request.auth.token.role == 'system_admin' ||
+        request.auth.token.role == 'admin' ||
+        request.auth.token.admin == true
+      );
+    }
+
+    function isTeacher() {
+      return isAuthenticated() && (
+        isSupervisor() ||
+        request.auth.token.role == 'teacher'
+      );
+    }
+
+    // Default deny all unknown paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Brand assets (logos, seals, badges, certificate backgrounds)
+    match /brand_assets/{assetType}/{fileName} {
+      // Public read so logos and seals can render in certificates and public pages
+      allow read: if true;
+      // Writes strictly restricted to supervisor / admin with 15MB limit
+      allow write: if isSupervisor() && request.resource.size < 15 * 1024 * 1024;
+    }
+
+    // Curriculum media (tajweed audios, recitation lessons, PDF mushaf supplements)
+    match /curriculum_media/{folder}/{fileName} {
+      // Enrolled and authenticated users can access curriculum media
+      allow read: if isAuthenticated();
+      // Only authorized teachers and supervisors can upload curriculum material (50MB limit)
+      allow write: if isTeacher() && request.resource.size < 50 * 1024 * 1024;
+    }
+
+    // Student payment receipts & contribution transfer slips
+    match /receipts/{userId}/{fileName} {
+      // Student can view own receipts, supervisor can review all
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isSupervisor());
+      // Student can upload receipt proof (up to 5MB)
+      allow write: if isAuthenticated() && (request.auth.uid == userId || isSupervisor()) && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // User profile pictures / avatars
+    match /avatars/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isAuthenticated() && request.auth.uid == userId && request.resource.size < 3 * 1024 * 1024;
+    }
+
+    // Diagnostic & system health tests
+    match /systemTests/{fileName} {
+      allow read, write, delete: if isSupervisor();
+    }
+  }
+}

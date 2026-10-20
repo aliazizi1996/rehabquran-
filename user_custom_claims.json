@@ -1,0 +1,16 @@
+{
+  "admin_master_aliazize101": {
+    "role": "system_admin",
+    "admin": true,
+    "supervisor": true,
+    "email": "aliazize101@gmail.com",
+    "assignedAt": "2026-10-01T19:44:33.816Z"
+  },
+  "aliazize101@gmail.com": {
+    "role": "system_admin",
+    "admin": true,
+    "supervisor": true,
+    "email": "aliazize101@gmail.com",
+    "assignedAt": "2026-10-01T19:44:33.816Z"
+  }
+}

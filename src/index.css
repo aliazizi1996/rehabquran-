@@ -1,0 +1,359 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --rehab-emerald: #046A38;
+    --rehab-gold: #C5A059;
+    --rehab-ivory: #F9F6F0;
+    --rehab-charcoal: #2C3531;
+    --color-rehab-emerald: #046A38;
+    --color-rehab-gold: #C5A059;
+    --color-rehab-ivory: #F9F6F0;
+    --color-rehab-charcoal: #2C3531;
+    --font-cairo: 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-alexandria: 'Alexandria', 'Cairo', sans-serif;
+    --font-kufi: 'Noto Kufi Arabic', 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-quran: 'Scheherazade New', 'Amiri', serif;
+    --font-amiri: 'Amiri', serif;
+    --font-tajawal: 'Tajawal', 'Cairo', sans-serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Noto Kufi Arabic', 'Cairo', 'Alexandria', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: normal;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* Smooth GPU-Accelerated Ivory <-> White Background Pulse */
+  @keyframes bg-ivory-white-pulse {
+    0% {
+      opacity: 0.25;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.015);
+    }
+    100% {
+      opacity: 0.25;
+      transform: scale(1);
+    }
+  }
+
+  body,
+  #root,
+  #root.bg-\[\#F9F6F0\] {
+    font-family: 'Noto Kufi Arabic', 'Cairo', 'Alexandria', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: normal;
+    line-height: 1.65;
+    font-feature-settings: "cv01", "cv02", "calt";
+    color: #2C3531;
+    overflow-x: hidden;
+    max-width: 100%;
+    min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+    background-color: #F9F6F0;
+    background: linear-gradient(135deg, #F9F6F0 0%, #FFFFFF 50%, #F9F6F0 100%);
+    background-attachment: fixed;
+  }
+
+  /* GPU-Accelerated composited layer for silky smooth ivory-white pulse without repaint */
+  #root::before,
+  #root.bg-\[\#F9F6F0\]::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 25%, #FFFFFF 0%, rgba(255, 255, 255, 0.85) 40%, rgba(249, 246, 240, 0.45) 75%, #F9F6F0 100%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(249, 246, 240, 0.4) 50%, rgba(255, 255, 255, 0.85) 100%);
+    will-change: opacity, transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    animation: bg-ivory-white-pulse 8s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #root::before,
+    #root.bg-\[\#F9F6F0\]::before {
+      animation: none !important;
+      opacity: 0.65 !important;
+    }
+  }
+
+  /* Allow the root GPU pulse background to illuminate through top layout canvas */
+  #root > div.min-h-screen {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    letter-spacing: normal;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Amiri', 'Alexandria', 'Cairo', system-ui, -apple-system, serif;
+    letter-spacing: normal;
+  }
+}
+
+/* Typography Utility Classes based on Official Brand Guide 2026 */
+.font-amiri {
+  font-family: 'Amiri', 'Scheherazade New', serif;
+  letter-spacing: normal;
+}
+
+.font-kufi {
+  font-family: 'Noto Kufi Arabic', 'Cairo', sans-serif;
+  letter-spacing: normal;
+}
+
+.font-display {
+  font-family: 'Amiri', 'Alexandria', serif;
+  letter-spacing: normal;
+}
+
+.bg-rehab-emerald {
+  background-color: #046A38;
+}
+
+.text-rehab-emerald {
+  color: #046A38;
+}
+
+.border-rehab-emerald {
+  border-color: #046A38;
+}
+
+.bg-rehab-gold {
+  background-color: #C5A059;
+}
+
+.text-rehab-gold {
+  color: #C5A059;
+}
+
+.border-rehab-gold {
+  border-color: #C5A059;
+}
+
+.bg-rehab-ivory {
+  background-color: #F9F6F0;
+}
+
+.text-rehab-charcoal {
+  color: #2C3531;
+}
+
+.font-cairo {
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+  letter-spacing: normal;
+}
+
+.font-alexandria {
+  font-family: 'Alexandria', system-ui, -apple-system, sans-serif;
+  letter-spacing: normal;
+}
+
+.font-tajawal {
+  font-family: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+  letter-spacing: normal;
+}
+
+.font-quran {
+  font-family: 'Scheherazade New', 'Amiri', serif;
+  line-height: 2.25;
+  font-feature-settings: "cv01", "cv02", "calt";
+  letter-spacing: normal;
+}
+
+.font-amiri {
+  font-family: 'Amiri', serif;
+  letter-spacing: normal;
+}
+
+/* Manus Brand Design System Components */
+.brand-card {
+  background: var(--rehab-ivory);
+  color: var(--rehab-charcoal);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.primary-button {
+  background: var(--rehab-emerald);
+  color: white;
+  border-radius: 0.75rem;
+  padding: 0.8rem 1.25rem;
+  font-weight: 700;
+  transition: 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #03562d;
+  transform: translateY(-1px);
+}
+
+.gold-button {
+  background: var(--rehab-gold);
+  color: var(--rehab-charcoal);
+  border-radius: 0.75rem;
+  padding: 0.7rem 1.1rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.gold-button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 30, 23, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.6);
+}
+
+/* Halqa Cards Smooth Motion & Pulse Effects */
+@keyframes soft-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.88;
+    transform: scale(1.015);
+  }
+}
+
+@keyframes ambient-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes subtle-shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-15deg);
+  }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 3s ease-in-out infinite;
+}
+
+.animate-ambient-glow {
+  animation: ambient-glow 4s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Official Print Optimization for Certificates & Reports */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+
+  body {
+    background-color: #F9F6F0 !important;
+    color: #2C3531 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide navigation, modals backdrops, and interactive buttons during print */
+  header, nav, button, .no-print {
+    display: none !important;
+  }
+
+  /* Printable Certificate Element Display */
+  .certificate-print-root {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    aspect-ratio: 1263 / 841 !important;
+    margin: 0 auto !important;
+    page-break-inside: avoid !important;
+    background-color: #F9F6F0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .official-certificate-artwork {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+}

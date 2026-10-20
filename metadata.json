@@ -1,0 +1,10 @@
+{
+  "name": "مقرأة رحاب القرآن الإلكترونية",
+  "description": "منصة وتطبيق مقرأة رحاب القرآن الإلكترونية لتعليم وحفظ وتجويد كتاب الله تعالى بالسند المتصل عن بُعد، وتصحيح التلاوات وإدارة الحلقات المباشرة.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
