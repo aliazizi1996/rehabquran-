@@ -15,12 +15,12 @@ import firebaseConfigData from '../../firebase-applet-config.json';
 // Public Firebase configuration for client-side Web SDK (no secrets)
 const env = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env : (process.env as any || {});
 export const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY || firebaseConfigData.apiKey,
-  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || firebaseConfigData.authDomain,
-  projectId: env.VITE_FIREBASE_PROJECT_ID || firebaseConfigData.projectId,
-  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || firebaseConfigData.storageBucket,
-  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || firebaseConfigData.messagingSenderId,
-  appId: env.VITE_FIREBASE_APP_ID || firebaseConfigData.appId,
+  apiKey: env.VITE_FIREBASE_API_KEY || firebaseConfigData.apiKey || 'AIzaSyAUgU0A8eSb6HusDiyZxEjGRWsqCSc5TSE',
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || firebaseConfigData.authDomain || 'flawless-cacao-n4r4b.firebaseapp.com',
+  projectId: env.VITE_FIREBASE_PROJECT_ID || firebaseConfigData.projectId || 'flawless-cacao-n4r4b',
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || firebaseConfigData.storageBucket || 'flawless-cacao-n4r4b.firebasestorage.app',
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || firebaseConfigData.messagingSenderId || '676593542004',
+  appId: env.VITE_FIREBASE_APP_ID || firebaseConfigData.appId || '1:676593542004:web:fa56fe0a9f962d8ea1c221',
 };
 
 // Initialize Firebase App
